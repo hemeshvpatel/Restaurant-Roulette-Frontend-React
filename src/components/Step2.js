@@ -13,41 +13,17 @@ export default class Step2 extends Component {
         return (
             <div className="form-group">
                 <h3>Preferences:</h3>
-                <label>vegetarian
-                <input
-                id="vegetarian"
-                name="vegetarian"
-                type="checkbox"
-                 />
-                </label>
-                <label>vegan
-                <input
-                id="vegan"
-                name="vegan"
-                type="checkbox"
-                 />
-                </label>
-                <label>mexican
-                <input
-                id="mexican"
-                name="mexican"
-                type="checkbox"
-                 />
-                </label>
-                <label>chinese
-                <input
-                id="chinese"
-                name="chinese"
-                type="checkbox"
-                 />
-                </label>
-                <label>sushi
-                <input
-                id="sushi"
-                name="sushi"
-                type="checkbox"
-                 />
-                </label>
+                {this.props.cuisines.map((cuisine, index) => {
+                    return <label key={index}>{cuisine.kind}
+                    <input 
+                    id={cuisine.id}
+                    name={cuisine.kind}
+                    value={this.props.isChecked}
+                    type="checkbox"
+                    onChange={this.props.handleCheckBoxChange}
+                    />
+                    </label>
+                    })}
                 <h3>Zip Code</h3>
                 <input 
                 className=""

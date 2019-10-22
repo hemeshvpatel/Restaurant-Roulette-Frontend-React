@@ -3,8 +3,8 @@ import Step1 from './Step1';
 import Step2 from './Step2';
 
 export default class Signup extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
 
         this._next = this._next.bind(this)
         this._prev = this._prev.bind(this)
@@ -17,7 +17,9 @@ export default class Signup extends Component {
             password_confirmation: '',
             zipcode: 0,
             radius: 0,
-            preferences: []
+            preferences: [],
+            user: '',
+            dummy: null
         }
     }
 
@@ -49,18 +51,47 @@ export default class Signup extends Component {
             })
             .then(resp => resp.json())
             .then(response => {
-                console.log(response)
+                localStorage.setItem("jwt", response.jwt)
+                this.setState({ user: response.user })
             })
+            .then(this.createCuisinePreferences)
         }
         else 
         alert("Passwords don't match - try again!")
     }
 
-    // handleCheckBoxSubmit = (event) => {
-    //     fetch request to cuisine preferences - post method. 
-    //     save all preferences into an array in state - then
-    //     .map through the array and do a fetch request to database for each cuisine
-    // }
+    createCuisinePreferences = () => {
+        this.state.preferences.map(cuisine_id => {
+            fetch('http://localhost:3000/api/cuisine_preferences', {
+                method: 'POST',
+                headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json'
+                    },
+                body: JSON.stringify({
+                        "user_id": this.state.user.id,
+                        "cuisine_id": parseInt(cuisine_id, 10)
+                    })
+                })
+                .then(resp => resp.json())
+                .then(response => {
+                    console.log(`your cuisine preference has been created!`)
+                    console.log(response)
+                })
+        })
+        
+    }
+
+    handleCheckBoxChange = (event) => {
+        if (this.state.preferences.includes(event.target.id)){
+            let newPreferences = this.state.preferences.filter(id => {
+                return id !== event.target.id
+            })
+            this.setState({ preferences: newPreferences })
+        } else {
+            this.state.preferences.push(event.target.id)
+        }
+    }   
     
     _next() {
         let thisStep = this.state.currentStep
@@ -131,6 +162,8 @@ export default class Signup extends Component {
                     password_confirmation={this.state.password_confirmation}
                     />
                     <Step2 
+                    handleCheckBoxChange={this.handleCheckBoxChange}
+                    cuisines={this.props.cuisines}
                     preferences={this.state.preferences}
                     currentStep={this.state.currentStep} 
                     handleChange={this.handleChange}
