@@ -38,7 +38,8 @@ class App extends Component {
     return (
       <Router>
       <div>
-        {this.state.isSignedUp || this.state.isLoggedIn ? (
+      {/* this.state.isSignedUp ||  */}
+        {this.state.cuisines.length === 0 ? (
         <Route 
         exact path="/home" 
         render={() => <Home />}
