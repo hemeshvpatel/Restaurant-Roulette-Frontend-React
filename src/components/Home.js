@@ -4,6 +4,9 @@ import NavBar from "./NavBar";
 import Preferences from "./Preferences";
 import Logout from "./Logout";
 import { tsImportEqualsDeclaration } from "@babel/types";
+import Waiting from "./Waiting";
+import RestaurantInfo from "./RestaurantInfo";
+import Roulette from "./Roulette";
 
 export default class Home extends Component {
   state = {
@@ -12,7 +15,9 @@ export default class Home extends Component {
     latData: 0,
     longData: 0,
     placeID: "",
-    restaurantName: ""
+    restaurantName: "",
+    showWaitingorRoulette: true,
+    showRestaurantInfo: false
   };
 
   componentDidMount() {
@@ -27,10 +32,10 @@ export default class Home extends Component {
     fetch(url, { method: "POST" })
       .then(response => response.json())
       .then(data => {
-        console.log("fetchCoordinates response: ", data);
+        //console.log("fetchCoordinates response: ", data);
         let latitude = data.results[0].geometry.location.lat;
         let longitude = data.results[0].geometry.location.lng;
-        console.log("Lat = ", latitude, " Long = ", longitude);
+        //console.log("Lat = ", latitude, " Long = ", longitude);
         this.fetchRestaurant(latitude, longitude);
       });
   };
@@ -51,7 +56,7 @@ export default class Home extends Component {
     //const urlFindPlaceFromText = `${proxyURL}https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=indian&inputtype=textquery&fields=photos,formatted_address,name,opening_hours,rating&locationbias=circle:${radius}@${latitude},${longitude}&key=${apiKey}`;
     const urlNearbySearch = `${proxyURL}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=restaurant&keyword=${cuisine1}&&${cuisine2}&key=${apiKey}`;
 
-    console.log("About to fetch restaurant from: ", urlNearbySearch);
+    //console.log("About to fetch restaurant from: ", urlNearbySearch);
     fetch(urlNearbySearch, {
       method: "GET",
       headers: {
@@ -78,14 +83,22 @@ export default class Home extends Component {
       });
   };
 
-  randomMatch() {
-    const allMatches = [...this.state.matches];
-    const randomResult =
-      allMatches[Math.floor(Math.random() * allMatches.length)];
+  //   randomMatch() {
+  //     const allMatches = [...this.state.matches];
+  //     const randomResult =
+  //       allMatches[Math.floor(Math.random() * allMatches.length)];
+  //     this.setState({
+  //       randomMatch: randomResult
+  //     });
+  //   }
+
+  handleClick = e => {
+    console.log("handleClick event = ", e);
     this.setState({
-      randomMatch: randomResult
+      showWaitingorRoulette: false,
+      showRestaurantInfo: true
     });
-  }
+  };
 
   render() {
     console.log("Current State: ", this.state);
@@ -98,9 +111,18 @@ export default class Home extends Component {
       (today.getMonth() + 1) +
       "-" +
       today.getDate();
-    let time =
+    let currentTime =
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    let dateTime = date + " " + time;
+    console.log("time format ", currentTime);
+
+    // let currentDateTime = date + " " + time;
+    // console.log("dateTime format ", dateTime);
+
+    if (currentTime > "16:00:00") {
+      console.log("Time is past 4pm");
+    } else {
+      console.log("Wait until 4pm");
+    }
 
     //conditional logic to be added for displaying componenets below:
     //If time is before 5pm display roulette
@@ -108,13 +130,24 @@ export default class Home extends Component {
     else
     <Route exact path="/restaurant" component={Restaurant} /> */
 
-    console.log(dateTime);
     return (
       <Router>
         <div>
           <NavBar />
           <Route exact path="/preferences" component={Preferences} />
           <Route exact path="/logout" component={Logout} />
+          <div>
+            {this.state.showWaitingorRoulette && currentTime < "16:00:00" ? (
+              <Waiting currentTime={currentTime} />
+            ) : (
+              <Roulette handleClick={this.handleClick} />
+            )}
+          </div>
+          <div>
+            {this.state.showRestaurantInfo && (
+              <RestaurantInfo randomMatch={this.state.randomMatch} />
+            )}
+          </div>
         </div>
       </Router>
     );
