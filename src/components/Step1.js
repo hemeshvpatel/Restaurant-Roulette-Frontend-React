@@ -5,9 +5,17 @@ export default class Step1 extends React.Component {
       if (this.props.currentStep !== 1) { // Prop: The current step
         return null
       }
-      // The markup for the Step 1 UI
       return(
         <div className="form-group">
+        <label>First Name</label>
+        <input 
+            className=""
+            id="name"
+            type="text"
+            placeholder="Enter first name"
+            value={this.props.name}
+            onChange={this.props.handleChange} 
+            />
           <label htmlFor="email">Email address</label>
           <input
             className="form-control"
