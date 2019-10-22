@@ -39,23 +39,18 @@ class App extends Component {
       <Router>
       <div>
       {/* this.state.isSignedUp ||  */}
-        {this.state.cuisines.length === 0 ? (
         <Route 
         exact path="/home" 
         render={() => <Home />}
         />
-        ) : (
         <Route 
         exact path="/signup"  
         render={(props) => <Signup {...props} cuisines={this.state.cuisines} signedIn={this.signedIn}/>} 
-        />,
+        />
         <Route 
         exact path="/login"
         render={(props) => <Login {...props} loggedIn={this.loggedIn} />} 
         />
-        )}
-        
-        
       </div>
     </Router>
     );
