@@ -19,7 +19,7 @@ export default class Signup extends Component {
             radius: 0,
             preferences: [],
             user: '',
-            dummy: null
+            isSignedUp: false
         }
     }
 
@@ -75,7 +75,7 @@ export default class Signup extends Component {
                 })
                 .then(resp => resp.json())
                 .then(response => {
-                    console.log(`your cuisine preference has been created!`)
+                    this.props.signedIn(true)
                     console.log(response)
                 })
         })

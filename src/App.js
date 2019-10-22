@@ -13,7 +13,9 @@ class App extends Component {
     super()
 
     this.state={
-      cuisines: []
+      cuisines: [],
+      isSignedUp: false,
+      isLoggedIn: false
     }
   }
 
@@ -24,23 +26,35 @@ class App extends Component {
       this.setState({ cuisines: cuisines})
     })
   }
+  signedIn = (isSignedUp) => {
+    this.setState({ isSignedUp: isSignedUp })
+    }
+
+  loggedIn = (isLoggedIn) => {
+    this.setState({ isLoggedIn: isLoggedIn })
+  }
 
   render() {
     return (
       <Router>
       <div>
+        {this.state.isSignedUp || this.state.isLoggedIn ? (
         <Route 
         exact path="/home" 
-        component={Home} 
+        render={() => <Home />}
         />
+        ) : (
         <Route 
         exact path="/signup"  
-        render={(props) => <Signup {...props} cuisines={this.state.cuisines} />} 
-        />
+        render={(props) => <Signup {...props} cuisines={this.state.cuisines} signedIn={this.signedIn}/>} 
+        />,
         <Route 
-        exact path="/login" 
-        component={Login} 
+        exact path="/login"
+        render={(props) => <Login {...props} loggedIn={this.loggedIn} />} 
         />
+        )}
+        
+        
       </div>
     </Router>
     );
