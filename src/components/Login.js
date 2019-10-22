@@ -37,6 +37,7 @@ export default class Login extends Component {
         .then(response => {
             localStorage.setItem("jwt", response.jwt)
             this.setState({ user: response.user })
+            this.props.loggedIn(true)
         })
     }
 
@@ -59,7 +60,8 @@ export default class Login extends Component {
                 <label>password:
                 <input type="password" name="password" value={this.state.value} onChange={this.handleChange}/><br />
                 </label>
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Login" /><br />
+                <button>Sign Up</button>
                 </form>
             </div>
         )
