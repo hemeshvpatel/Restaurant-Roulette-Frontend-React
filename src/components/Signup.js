@@ -6,6 +6,9 @@ export default class Signup extends Component {
     constructor() {
         super()
 
+        this._next = this._next.bind(this)
+        this._prev = this._prev.bind(this)
+
         this.state = {
             currentStep: 1,
             name: '',
@@ -25,28 +28,32 @@ export default class Signup extends Component {
     }
 
     handleSubmit = (event) => {
-        event.preventDefault();
-        fetch('http://localhost:3000/api/users/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json' 
-            },
-            body: JSON.stringify({
-                "user": {
-                    "name": this.state.name,
-                    "email": this.state.email,
-                    "password": this.state.password,
-                    "password_confirmation": this.state.password_confirmation,
-                    "zipcode": this.state.zipcode,
-                    "radius": this.state.radius
-                  }
+        if (this.state.password === this.state.password_confirmation) {
+            event.preventDefault();
+            fetch('http://localhost:3000/api/users/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json' 
+                },
+                body: JSON.stringify({
+                    "user": {
+                        "name": this.state.name,
+                        "email": this.state.email,
+                        "password": this.state.password,
+                        "password_confirmation": this.state.password_confirmation,
+                        "zipcode": this.state.zipcode,
+                        "radius": this.state.radius
+                      }
+                })
             })
-        })
-        .then(resp => resp.json())
-        .then(response => {
-            console.log(response)
-        })
+            .then(resp => resp.json())
+            .then(response => {
+                console.log(response)
+            })
+        }
+        else 
+        alert("Passwords don't match - try again!")
     }
 
     // handleCheckBoxSubmit = (event) => {
@@ -55,19 +62,19 @@ export default class Signup extends Component {
     //     .map through the array and do a fetch request to database for each cuisine
     // }
     
-    next() {
-        let currentStep = this.state.currentStep
-        currentStep = currentStep >= 1? 2: currentStep + 1
+    _next() {
+        let thisStep = this.state.currentStep
+        thisStep = thisStep >= 1? 2: thisStep + 1
         this.setState({
-            currentStep: currentStep
+            currentStep: thisStep
         })
     }
 
-    prev() {
-        let currentStep = this.state.currentStep
-        currentStep = currentStep <= 1? 1: currentStep - 1
+    _prev() {
+        let thisStep = this.state.currentStep;
+        thisStep = thisStep <= 1? 1: thisStep - 1
         this.setState({
-            currentStep: currentStep
+            currentStep: thisStep
         })
     }
 
@@ -77,7 +84,7 @@ export default class Signup extends Component {
           return (
             <button 
                 className="btn btn-secondary" 
-                type="button" onClick={this.prev}>
+                type="button" onClick={this._prev}>
                 Previous
             </button>
           )
@@ -87,16 +94,24 @@ export default class Signup extends Component {
       
       get nextButton(){
         let currentStep = this.state.currentStep;
-        if(currentStep <2){
+        if(currentStep === 1){
           return (
             <button 
                 className="btn btn-primary float-right" 
-                type="button" onClick={this.next}>
+                type="button" onClick={this._next}>
                 Next
             </button>        
           )
         }
         return null;
+      }
+
+      get submitButton() {
+          if(this.state.currentStep === 2){
+              return(
+                <input type="submit" value="Create Account" />
+              )
+          }
       }
 
     render() {
@@ -123,7 +138,8 @@ export default class Signup extends Component {
                     radius={this.state.radius}
                     />
                     {this.previousButton}
-                    {this.nextButton}      
+                    {this.nextButton} 
+                    {this.submitButton}
                 </form>
                 </React.Fragment>
             </div>

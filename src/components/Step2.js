@@ -4,12 +4,12 @@ export default class Step2 extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-
-        }
     }
 
     render() {
+        if (this.props.currentStep === 1) {
+            return null
+        }
         return (
             <div className="form-group">
                 <h3>Preferences:</h3>
