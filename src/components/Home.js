@@ -17,12 +17,25 @@ export default class Home extends Component {
     placeID: "",
     restaurantName: "",
     showWaitingorRoulette: true,
-    showRestaurantInfo: false
+    showRestaurantInfo: false,
+    randomCuisine: ''
   };
 
   componentDidMount() {
     this.fetchCoordinates();
+    this.randomizeUserCuisine();
   }
+
+  randomizeUserCuisine = () => {
+    fetch(`http://localhost:3000/api/users/${this.props.user.id}`)
+    .then(resp => resp.json())
+    .then(data => {
+        const cuisinePreferences = data.cuisine_preferences
+        let randomCuisine = cuisinePreferences[Math.floor(Math.random() * cuisinePreferences.length)]
+        this.setState({ randomCuisine: randomCuisine.cuisine.kind })
+    })
+      
+}
 
   fetchCoordinates = () => {
     const zipcode = this.props.user.zipcode
@@ -32,7 +45,6 @@ export default class Home extends Component {
     fetch(url, { method: "POST" })
       .then(response => response.json())
       .then(data => {
-        //console.log("fetchCoordinates response: ", data);
         let latitude = data.results[0].geometry.location.lat;
         let longitude = data.results[0].geometry.location.lng;
         //console.log("Lat = ", latitude, " Long = ", longitude);
@@ -41,22 +53,18 @@ export default class Home extends Component {
   };
 
   fetchRestaurant = (latitude, longitude) => {
-    //link to understanding why have to use proxyurl to get to api (CORS)
-    //https://stackoverflow.com/questions/43871637/no-access-control-allow-origin-header-is-present-on-the-requested-resource-whe/43881141
-
-    const proxyURL = "https://cors-anywhere.herokuapp.com/";
+    // PLEASE UNCOMMENT THE FOLLOWING LINE AS A CORS WORK AROUND.
+    // const proxyURL = "https://cors-anywhere.herokuapp.com/";
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
-
-    // Form User Inputs:
-    const cuisine1 = "indian";
-    const cuisine2 = "mexican";
-    //radius is in meters, have to convert miles to meters by multiplying by 1600
+    const cuisine1 = this.state.randomCuisine;
     const miles = this.props.user.radius;
     const radius = miles * 1600;
-    //const urlFindPlaceFromText = `${proxyURL}https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=indian&inputtype=textquery&fields=photos,formatted_address,name,opening_hours,rating&locationbias=circle:${radius}@${latitude},${longitude}&key=${apiKey}`;
-    const urlNearbySearch = `${proxyURL}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=restaurant&keyword=${cuisine1}&&${cuisine2}&key=${apiKey}`;
+    // PLEASE UNCOMMENT THE FOLLOWING LINE AS A CORS WORK AROUND
+    // const urlNearbySearch = `${proxyURL}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=restaurant&keyword=${cuisine1}&key=${apiKey}`;
+    
+    //COMMENT OUT THIS LINE IF YOU'RE USING THE ABOVE CORS WORK AROUNDS.
+    const urlNearbySearch = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=restaurant&keyword=${cuisine1}&key=${apiKey}`;
 
-    //console.log("About to fetch restaurant from: ", urlNearbySearch);
     fetch(urlNearbySearch, {
       method: "GET",
       headers: {
@@ -72,8 +80,8 @@ export default class Home extends Component {
         this.setState({
           matches: data.results,
           randomMatch: randomResult,
-          latData: latitude,
-          longData: longitude,
+          latData: randomResult.geometry.location.lat,
+          longData: randomResult.geometry.location.lng,
           placeID: randomResult.place_id,
           restaurantName: randomResult.name
         });
@@ -83,17 +91,7 @@ export default class Home extends Component {
       });
   };
 
-  //   randomMatch() {
-  //     const allMatches = [...this.state.matches];
-  //     const randomResult =
-  //       allMatches[Math.floor(Math.random() * allMatches.length)];
-  //     this.setState({
-  //       randomMatch: randomResult
-  //     });
-  //   }
-
   handleClick = e => {
-    console.log("handleClick event = ", e);
     this.setState({
       showWaitingorRoulette: false,
       showRestaurantInfo: true
@@ -101,9 +99,7 @@ export default class Home extends Component {
   };
 
   render() {
-    console.log("Current State: ", this.state);
-
-    //Time data
+    console.log(this.props.user);
     let today = new Date();
     let date =
       today.getFullYear() +
@@ -118,11 +114,11 @@ export default class Home extends Component {
     // let currentDateTime = date + " " + time;
     // console.log("dateTime format ", dateTime);
 
-    if (currentTime > "16:00:00") {
-      console.log("Time is past 4pm");
-    } else {
-      console.log("Wait until 4pm");
-    }
+    // if (currentTime > "16:00:00") {
+    //   console.log("Time is past 4pm");
+    // } else {
+    //   console.log("Wait until 4pm");
+    // }
 
     //conditional logic to be added for displaying componenets below:
     //If time is before 5pm display roulette
@@ -137,7 +133,8 @@ export default class Home extends Component {
           <Route exact path="/preferences" component={Preferences} />
           <Route exact path="/logout" component={Logout} />
           <div>
-            {this.state.showWaitingorRoulette && currentTime < "16:00:00" ? (
+          <RestaurantInfo randomMatch={this.state.randomMatch} latData={this.state.latData} longData={this.state.longData}/>
+            {/* {this.state.showWaitingorRoulette && currentTime < "16:00:00" ? (
               <Waiting currentTime={currentTime} />
             ) : (
               <Roulette handleClick={this.handleClick} />
@@ -146,7 +143,7 @@ export default class Home extends Component {
           <div>
             {this.state.showRestaurantInfo && (
               <RestaurantInfo randomMatch={this.state.randomMatch} latData={this.state.latData} longData={this.state.longData}/>
-            )}
+            )} */}
           </div>
         </div>
       </Router>
