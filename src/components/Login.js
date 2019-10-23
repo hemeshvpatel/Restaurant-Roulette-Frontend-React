@@ -45,10 +45,14 @@ export default class Login extends Component {
         })
     }
 
-    handleLogout = (event) => {
-        event.preventDefault()
-        localStorage.removeItem("jwt")
-        this.setState ({ user: '' })
+    // handleLogout = (event) => {
+    //     event.preventDefault()
+    //     localStorage.removeItem("jwt")
+    //     this.setState ({ user: '' })
+    // }
+
+    handleClick = () => {
+        this.props.history.push('/signup')
     }
     
     
@@ -65,7 +69,7 @@ export default class Login extends Component {
                 <input type="password" name="password" value={this.state.value} onChange={this.handleChange}/><br />
                 </label>
                 <input type="submit" value="Login" className="btn btn-primary"/><br />
-                <button className="btn btn-primary">Sign Up</button>
+                <button className="btn btn-primary" onClick={this.handleClick}>Sign Up</button>
                 </form>
             </div>
         )

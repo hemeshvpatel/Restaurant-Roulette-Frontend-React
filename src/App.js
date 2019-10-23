@@ -43,6 +43,12 @@ class App extends Component {
     this.setState({ user: user })
   }
 
+  handleLogout = (event) => {
+    event.preventDefault()
+    localStorage.removeItem("jwt")
+    this.setState ({ user: '' })
+}
+
   render() {
     return (
       <Router>
@@ -58,7 +64,7 @@ class App extends Component {
         {this.state.user ? 
         (<Route 
         exact path="/home" 
-        render={() => <Home user={this.state.user}/>}
+        render={() => <Home user={this.state.user} handleLogout={(event) => this.handleLogout}/>}
         />) :
         (<Redirect from="/home" to="/login" /> )
       }      

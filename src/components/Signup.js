@@ -78,7 +78,7 @@ export default class Signup extends Component {
                 .then(resp => resp.json())
                 .then(response => {
                     this.props.signedIn(true)
-                    console.log(response)
+                    console.log('success!', response)
                 })
         })
         

@@ -21,21 +21,13 @@ export default class Home extends Component {
     randomCuisine: ''
   };
 
+
+
   componentDidMount() {
     this.fetchCoordinates();
     this.randomizeUserCuisine();
   }
 
-  randomizeUserCuisine = () => {
-    fetch(`http://localhost:3000/api/users/${this.props.user.id}`)
-    .then(resp => resp.json())
-    .then(data => {
-        const cuisinePreferences = data.cuisine_preferences
-        let randomCuisine = cuisinePreferences[Math.floor(Math.random() * cuisinePreferences.length)]
-        this.setState({ randomCuisine: randomCuisine.cuisine.kind })
-    })
-      
-}
 
   fetchCoordinates = () => {
     const zipcode = this.props.user.zipcode
@@ -51,6 +43,18 @@ export default class Home extends Component {
         this.fetchRestaurant(latitude, longitude);
       });
   };
+
+  randomizeUserCuisine = () => {
+    fetch(`http://localhost:3000/api/users/${this.props.user.id}`)
+    .then(resp => resp.json())
+    .then(data => {
+        console.log(data)
+        // const cuisinePreferences = data.cuisine_preferences
+        // let randomCuisine = cuisinePreferences[Math.floor(Math.random() * cuisinePreferences.length)]
+        // this.setState({ randomCuisine: randomCuisine.cuisine.kind })
+    })
+      
+}
 
   fetchRestaurant = (latitude, longitude) => {
     // PLEASE UNCOMMENT THE FOLLOWING LINE AS A CORS WORK AROUND.
@@ -129,7 +133,7 @@ export default class Home extends Component {
     return (
       <Router>
         <div>
-          <NavBar />
+          <NavBar handleLogout={this.props.handleLogout}/>
           <Route exact path="/preferences" component={Preferences} />
           <Route exact path="/logout" component={Logout} />
           <div>
