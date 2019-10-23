@@ -102,6 +102,14 @@ export default class Home extends Component {
     });
   };
 
+  icon = () => {
+    <span class ="logo">
+      
+
+      
+    </span>
+  }
+
   render() {
     console.log(this.props.user);
     let today = new Date();
