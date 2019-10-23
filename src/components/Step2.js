@@ -11,40 +11,62 @@ export default class Step2 extends Component {
             return null
         }
         return (
-            <div className="form-group">
-                <h3>Preferences:</h3>
-                {this.props.cuisines.map((cuisine, index) => {
-                    return <label key={index}>{cuisine.kind}
-                    <input 
-                    id={cuisine.id}
-                    name={cuisine.kind}
-                    value={this.props.isChecked}
-                    type="checkbox"
-                    onChange={this.props.handleCheckBoxChange}
-                    />
-                    </label>
-                    })}
-                <h3>Zip Code</h3>
-                <input 
-                className=""
-                name="zipcode"
-                id="zipcode"
-                type="text"
-                placeholder="5 digit zip-code"
-                value={this.props.zipcode}
-                onChange={this.props.handleChange} 
-                />
-                <h3>Radius</h3>
-                <input 
-                className=""
-                name="radius"
-                id="radius"
-                type="text"
-                placeholder="Radius"
-                value={this.props.radius}
-                onChange={this.props.handleChange} 
-                />
+            <div className="container">
+                <div className="row">
+                    <div className="col-4"></div>
+                    <div className="col-4">
+                    <div className="form-group">
+                        <h4><b>preferences:</b></h4>
+                        <small><i>what kind of food do you like?</i></small>
+                        <br />
+                        {this.props.cuisines.map((cuisine, index) => {
+                            return <div class="form-check form-check-inline">
+                                <label class="form-check-label" key={index}>{cuisine.kind}
+                                <input 
+                                class="form-check-input"
+                                id={cuisine.id}
+                                name={cuisine.kind}
+                                value={this.props.isChecked}
+                                type="checkbox"
+                                onChange={this.props.handleCheckBoxChange}
+                                />
+                                </label>
+                            </div>
+                            })}
+                            <br />
+                        <h4><b>zipcode:</b></h4>
+                        <small><i>where are you normally searching for dinner?</i></small>
+                        <input 
+                        className="form-control"
+                        name="zipcode"
+                        id="zipcode"
+                        type="text"
+                        placeholder="5 digit zip-code"
+                        value={this.props.zipcode}
+                        onChange={this.props.handleChange} 
+                        />
+                        <br />
+                        <h4><b>radius:</b></h4>
+                        <small><i>how far are you willing to travel for grub?</i></small>
+                        <input 
+                        className="form-control"
+                        name="radius"
+                        id="radius"
+                        type="text"
+                        placeholder="Radius"
+                        value={this.props.radius}
+                        onChange={this.props.handleChange} 
+                        />
+                        </div>
+                        <div className="col-4">
+                            <div className="img-div">
+                                <img src="./roulette-svgrepo-com.svg" className="rotate" style={{ maxWidth: "250px", margin: "0 auto 0 auto", position: "fixed", bottom: "5%", right: "5%" }}/>
+                            </div>
+                        </div>
             </div>
+                </div>
+            </div>
+           
         )
     }
 }

@@ -60,17 +60,31 @@ export default class Login extends Component {
     render() {
         return(
             <div>
-                <h1>Login</h1>
-                <form onSubmit={(event) => this.handleLogin(event)}>
-                <label> email:
-                <input type="text" name="email" value={this.state.value} onChange={this.handleChange} /> <br />
-                </label>
-                <label>password:
-                <input type="password" name="password" value={this.state.value} onChange={this.handleChange}/><br />
-                </label>
-                <input type="submit" value="Login" className="btn btn-primary"/><br />
-                <button className="btn btn-primary" onClick={this.handleClick}>Sign Up</button>
-                </form>
+            <div className="pb-2 mt-4 mb-2">
+                    <h1 className="header" style={{ fontSize: '75px'}}>Restaurant Roulette</h1>
+                    </div>
+            <div className="container">
+                <div className="row">
+                    <div className="col-4"></div>
+                    <div className="col-4">
+                        <form onSubmit={(event) => this.handleLogin(event)}>
+                        <div className="form-group">
+                            <label><b>email:</b></label>
+                            <input type="text" name="email" className="form-control" value={this.state.value} onChange={this.handleChange} /> <br />
+                            <label><b>password:</b></label>
+                            <input type="password" name="password" className="form-control" value={this.state.value} onChange={this.handleChange}/><br />
+                        </div>
+                        <input type="submit" value="Login" className="button"/><br />
+                        <small style={{ color: '#5C5932'}}>Not a member? <b onClick={this.handleClick} className="link">Sign up.</b></small>
+                        </form>
+                    </div>
+                </div>
+                <div className="col-4">
+                    <div className="img-div">
+                        <img src="./roulette-svgrepo-com.svg" className="rotate" style={{ maxWidth: "250px", margin: "0 auto 0 auto", position: "fixed", bottom: "5%", right: "5%" }}/>
+                    </div>
+                </div>
+                </div>
             </div>
         )
     }

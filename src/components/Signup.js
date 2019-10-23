@@ -115,11 +115,7 @@ export default class Signup extends Component {
         let currentStep = this.state.currentStep;
         if(currentStep !==1){
           return (
-            <button 
-                className="btn btn-secondary" 
-                type="button" onClick={this._prev}>
-                Previous
-            </button>
+            <small style={{ color: '#5C5932'}} onClick={this._prev} className="link"><b>Go back.</b></small>
           )
         }
         return null;
@@ -130,7 +126,8 @@ export default class Signup extends Component {
         if(currentStep === 1){
           return (
             <button 
-                className="btn btn-primary float-right" 
+                className="button"
+                style={{width: '56%', marginLeft: 'auto', marginRight: 'auto'}} 
                 type="button" onClick={this._next}>
                 Next
             </button>        
@@ -142,7 +139,7 @@ export default class Signup extends Component {
       get submitButton() {
           if(this.state.currentStep === 2){
               return(
-                <input type="submit" value="Create Account" />
+                <input type="submit" value="Create Account" className="button" style={{width: '56%', marginLeft: 'auto', marginRight: 'auto'}} />
               )
           }
       }
@@ -151,9 +148,9 @@ export default class Signup extends Component {
         return(
             <div>
                 <React.Fragment>
-                <h1>Sign Up</h1>
-                <p>Step {this.state.currentStep} </p> 
-                    
+                <div className="pb-2 mt-4 mb-2">
+                    <h1 className="header" style={{ fontSize: '75px'}}>Restaurant Roulette</h1>
+                </div>
                 <form onSubmit={this.handleSubmit}>
                     <Step1 
                     currentStep={this.state.currentStep} 
@@ -172,9 +169,12 @@ export default class Signup extends Component {
                     zipcode={this.state.zipcode}
                     radius={this.state.radius}
                     />
-                    {this.previousButton}
-                    {this.nextButton} 
-                    {this.submitButton}
+                    <div style={{ marginLeft: '30%', marginRight: 'auto', padding: '15px'}}>
+                        {this.nextButton} 
+                        {this.submitButton}
+                        <br />
+                        {this.previousButton}
+                    </div>
                 </form>
                 </React.Fragment>
             </div>

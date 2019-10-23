@@ -9,48 +9,53 @@ export default class Step1 extends React.Component {
         return null
       }
       return(
-        <div className="form-group">
-        <label>First Name</label>
+        <div>
+          
+        <div className="form-group" style={{ width: '40%', marginLeft: 'auto', marginRight: 'auto', padding: '15px'}}>
+        <label><b>first name:</b></label>
         <input 
             className="form-control"
             id="name"
             name="name"
             type="text"
-            placeholder="Enter first name"
             value={this.props.name}
             onChange={this.props.handleChange} 
             />
-          <label>Email address</label>
+          <label><b>email:</b></label>
+          <br />
+          <small><i>don't worry -- we'll never share your info.</i></small>
           <input
             className="form-control"
             id="email"
             name="email"
             type="text"
-            placeholder="Enter email"
             value={this.props.email} 
             onChange={this.props.handleChange} 
           />
-          <label>Password</label>
+          <label><b>password:</b></label>
           <input
             className="form-control"
             id="password"
             name="password"
             type="password"
-            placeholder="Enter password"
             value={this.props.password} 
             onChange={this.props.handleChange}
           />
-          <label>Password Confirmation</label>
+          <label><b>password confirmation:</b></label>
           <input
             className="form-control"
             id="password_confirmation"
             name="password_confirmation"
             type="password"
-            placeholder="Re-enter password"
             value={this.props.password_confirmation} 
             onChange={this.props.handleChange}
           />
+                <div className="img-div">
+                    <img src="./roulette-svgrepo-com.svg" className="rotate" style={{ maxWidth: "250px", margin: "0 auto 0 auto", position: "fixed", bottom: "5%", right: "5%" }}/>
+                </div>
+          </div>
         </div>
+        
       )
     }
   }
