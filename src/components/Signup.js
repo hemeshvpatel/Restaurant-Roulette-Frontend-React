@@ -53,6 +53,8 @@ export default class Signup extends Component {
             .then(response => {
                 localStorage.setItem("jwt", response.jwt)
                 this.setState({ user: response.user })
+                this.props.userSignIn(response.user)
+                this.props.history.push('/home')
             })
             .then(this.createCuisinePreferences)
         }

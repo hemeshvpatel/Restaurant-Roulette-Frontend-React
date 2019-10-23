@@ -25,7 +25,7 @@ export default class Home extends Component {
   }
 
   fetchCoordinates = () => {
-    const zipcode = 78702;
+    const zipcode = this.props.user.zipcode
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=austin&components=postal_code:"+${zipcode}+"&sensor=false&key=${apiKey}`;
 
@@ -51,7 +51,7 @@ export default class Home extends Component {
     const cuisine1 = "indian";
     const cuisine2 = "mexican";
     //radius is in meters, have to convert miles to meters by multiplying by 1600
-    const miles = 1;
+    const miles = this.props.user.radius;
     const radius = miles * 1600;
     //const urlFindPlaceFromText = `${proxyURL}https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=indian&inputtype=textquery&fields=photos,formatted_address,name,opening_hours,rating&locationbias=circle:${radius}@${latitude},${longitude}&key=${apiKey}`;
     const urlNearbySearch = `${proxyURL}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=restaurant&keyword=${cuisine1}&&${cuisine2}&key=${apiKey}`;
@@ -145,7 +145,7 @@ export default class Home extends Component {
           </div>
           <div>
             {this.state.showRestaurantInfo && (
-              <RestaurantInfo randomMatch={this.state.randomMatch} />
+              <RestaurantInfo randomMatch={this.state.randomMatch} latData={this.state.latData} longData={this.state.longData}/>
             )}
           </div>
         </div>

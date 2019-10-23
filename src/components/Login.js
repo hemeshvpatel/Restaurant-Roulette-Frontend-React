@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Signup from './Signup';
+import { Link } from 'react-router-dom'
 
 export default class Login extends Component {
     constructor() {
@@ -37,7 +39,9 @@ export default class Login extends Component {
         .then(response => {
             localStorage.setItem("jwt", response.jwt)
             this.setState({ user: response.user })
+            this.props.userLogIn(response.user)
             this.props.loggedIn(true)
+            this.props.history.push('/home')
         })
     }
 
@@ -60,8 +64,8 @@ export default class Login extends Component {
                 <label>password:
                 <input type="password" name="password" value={this.state.value} onChange={this.handleChange}/><br />
                 </label>
-                <input type="submit" value="Login" /><br />
-                <button>Sign Up</button>
+                <input type="submit" value="Login" className="btn btn-primary"/><br />
+                <button className="btn btn-primary">Sign Up</button>
                 </form>
             </div>
         )
