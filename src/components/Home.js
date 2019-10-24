@@ -542,6 +542,23 @@ export default class Home extends Component {
     /* <Route exact path="/roulette" component={Roulette} />
     else
     <Route exact path="/restaurant" component={Restaurant} /> */
+    if (this.state.showRestaurantInfo === true) {
+      return (
+        <div>
+          <NavBar icon={this.icon} handleLogout={this.props.handleLogout} />
+          <Route exact path="/preferences" component={Preferences} />
+          <Route exact path="/logout" component={Logout} />
+        <div>
+            {this.state.showRestaurantInfo && (
+              <RestaurantInfo
+                randomMatch={this.state.randomMatch}
+                latData={this.state.latData}
+                longData={this.state.longData}
+              />
+            )}
+            </div>
+          </div>)
+    }
     return (
       <Router>
         <div>
@@ -551,19 +568,10 @@ export default class Home extends Component {
 
           <div>
             {/* <RestaurantInfo randomMatch={this.state.randomMatch} latData={this.state.latData} longData={this.state.longData}/> */}
-            {this.state.showWaitingorRoulette && currentTime < "1:00:00" ? (
+            {this.state.showWaitingorRoulette && currentTime < "13:00:00" ? (
               <Waiting currentTime={currentTime} />
             ) : (
               <Roulette handleClick={this.handleClick} />
-            )}
-          </div>
-          <div>
-            {this.state.showRestaurantInfo && (
-              <RestaurantInfo
-                randomMatch={this.state.randomMatch}
-                latData={this.state.latData}
-                longData={this.state.longData}
-              />
             )}
           </div>
         </div>
