@@ -25,7 +25,14 @@ class App extends Component {
     .then(resp => resp.json())
     .then(cuisines => {
       this.setState({ cuisines: cuisines})
-    })
+    }).then(
+      fetch(`http://localhost:3000/api/users/${this.state.user.id}`)
+          .then(resp => resp.json())
+          .then(resp => {
+              this.setState({ user: resp })
+
+                  })
+    )
   }
   signedIn = (isSignedUp) => {
     this.setState({ isSignedUp: isSignedUp })
@@ -35,7 +42,7 @@ class App extends Component {
     this.setState({ isLoggedIn: isLoggedIn })
   }
 
-  userSignIn = (user) => {
+  userSignUp = (user) => {
     this.setState({ user: user })
   }
 
@@ -50,12 +57,15 @@ class App extends Component {
 }
 
   render() {
+    if (this.state.user === true) {
+      return <Redirect to='/home' />
+    }
     return (
       <Router>
       <div>
         <Route 
         exact path="/signup"  
-        render={(props) => <Signup {...props} cuisines={this.state.cuisines} signedIn={this.signedIn} userSignIn={this.userSignIn} />} 
+        render={(props) => <Signup {...props} cuisines={this.state.cuisines} signedIn={this.signedIn} userSignUp={this.userSignUp} />} 
         />
         <Route 
         exact path="/login"

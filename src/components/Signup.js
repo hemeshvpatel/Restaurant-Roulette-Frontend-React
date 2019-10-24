@@ -53,7 +53,6 @@ export default class Signup extends Component {
             .then(response => {
                 localStorage.setItem("jwt", response.jwt)
                 this.setState({ user: response.user })
-                this.props.userSignIn(response.user)
                 this.props.history.push('/home')
             })
             .then(this.createCuisinePreferences)
@@ -75,14 +74,25 @@ export default class Signup extends Component {
                         "cuisine_id": parseInt(cuisine_id, 10)
                     })
                 })
+            })
                 .then(resp => resp.json())
                 .then(response => {
                     this.props.signedIn(true)
                     console.log('success!', response)
                 })
-        })
+                .then(
+                    fetch(`http://localhost:3000/api/users/${this.state.user.id}`)
+                    .then(resp => resp.json())
+                    .then(resp => {
+                        console.log(resp)
+                        this.setState({ user: resp })
+                        this.props.userSignUp(resp)
+                            })
+                        )
+                    
+        }
         
-    }
+    
 
     handleCheckBoxChange = (event) => {
         if (this.state.preferences.includes(event.target.id)){
