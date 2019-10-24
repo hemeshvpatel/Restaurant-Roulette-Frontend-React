@@ -51,15 +51,22 @@ export default class Signup extends Component {
       })
         .then(resp => resp.json())
         .then(response => {
+          console.log(response)
           localStorage.setItem("jwt", response.jwt);
           this.setState({ user: response.user });
-          this.props.history.push("/home");
+          this.createCuisinePreferences(this.state.user)
+          this.getRecentUserInfo()
+          // this.props.history.push("/home");
         })
-        .then(this.createCuisinePreferences);
+        // .then(this.createCuisinePreferences(this.state.user))
+        // .then(this.getRecentUserInfo());
+        // this.props.history.push("/home")
     } else alert("Passwords don't match - try again!");
   };
 
-  createCuisinePreferences = () => {
+  createCuisinePreferences = (user) => {
+    console.log(this.state.user)
+    console.log('2) create preferences')
     this.state.preferences.map((cuisine_id, index) => {
       fetch("http://localhost:3000/api/cuisine_preferences", {
         method: "POST",
@@ -68,7 +75,7 @@ export default class Signup extends Component {
           Accept: "application/json"
         },
         body: JSON.stringify({
-          user_id: this.state.user.id,
+          user_id: user.id,
           cuisine_id: parseInt(cuisine_id, 10)
         })
       })
@@ -76,16 +83,19 @@ export default class Signup extends Component {
         .then(response => {
           this.props.signedIn(true);
         });
-      return console.log("success!");
     });
+  };
 
+  getRecentUserInfo = () => {
+    console.log('3) get most recent user info')
     fetch(`http://localhost:3000/api/users/${this.state.user.id}`)
       .then(resp => resp.json())
       .then(resp => {
         this.setState({ user: resp });
         this.props.userSignUp(resp);
       });
-  };
+    console.log(`success!`, this.state.user)
+  }
 
   handleCheckBoxChange = event => {
     if (this.state.preferences.includes(event.target.id)) {
@@ -162,6 +172,7 @@ export default class Signup extends Component {
   }
 
   render() {
+    console.log("CURRENT STATE = ", this.state)
     return (
       <div>
         <React.Fragment>

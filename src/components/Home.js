@@ -36,7 +36,6 @@ export default class Home extends Component {
       .then(response => response.json())
       .then(data => {
         console.log("data response ========", data);
-        console.log("state ======", this.state.user);
         console.log("api key", apiKey);
         let latitude = data.results[0].geometry.location.lat;
         let longitude = data.results[0].geometry.location.lng;
@@ -543,7 +542,6 @@ export default class Home extends Component {
     /* <Route exact path="/roulette" component={Roulette} />
     else
     <Route exact path="/restaurant" component={Restaurant} /> */
-
     return (
       <Router>
         <div>
@@ -553,7 +551,7 @@ export default class Home extends Component {
 
           <div>
             {/* <RestaurantInfo randomMatch={this.state.randomMatch} latData={this.state.latData} longData={this.state.longData}/> */}
-            {this.state.showWaitingorRoulette && currentTime < "16:00:00" ? (
+            {this.state.showWaitingorRoulette && currentTime < "1:00:00" ? (
               <Waiting currentTime={currentTime} />
             ) : (
               <Roulette handleClick={this.handleClick} />

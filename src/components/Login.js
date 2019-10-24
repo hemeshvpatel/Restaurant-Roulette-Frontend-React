@@ -3,7 +3,6 @@ import Signup from './Signup';
 import { Link } from 'react-router-dom'
 
 export default class Login extends Component {
-    // isMounted = false;
     
     constructor() {
         super()
@@ -39,24 +38,23 @@ export default class Login extends Component {
             })
             .then(resp => resp.json())
             .then(response => {
+                    this.setState({ user: response.user})
                     localStorage.setItem("jwt", response.jwt)
-                    this.props.userLogIn(response)
+                    this.getUserCuisine();
+                    this.props.history.push("/home")
                 
             })
         }
-    
 
-    // componentWillUnmount() {
-    //     this._isMounted = false;
-    // }
-    
-            
+        getUserCuisine = () => {
+            fetch(`http://localhost:3000/api/users/${this.state.user.id}`)
+            .then(resp => resp.json())
+            .then(user => {
+                this.setState({ user: user })
+                this.props.userLogIn(user)
+            })
+        }
 
-    // handleLogout = (event) => {
-    //     event.preventDefault()
-    //     localStorage.removeItem("jwt")
-    //     this.setState ({ user: '' })
-    // }
 
     handleClick = () => {
         this.props.history.push('/signup')
