@@ -551,8 +551,11 @@ export default class Home extends Component {
 
           <div>
             {/* <RestaurantInfo randomMatch={this.state.randomMatch} latData={this.state.latData} longData={this.state.longData}/> */}
-            {this.state.showWaitingorRoulette && currentTime < "1:00:00" ? (
-              <Waiting currentTime={currentTime} />
+            {this.state.showWaitingorRoulette && currentTime < "18:59:59" ? (
+              <Waiting
+                currentTime={currentTime}
+                handleClick={this.handleClick}
+              />
             ) : (
               <Roulette handleClick={this.handleClick} />
             )}
