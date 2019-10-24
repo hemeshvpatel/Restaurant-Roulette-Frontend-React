@@ -548,7 +548,7 @@ export default class Home extends Component {
           <NavBar icon={this.icon} handleLogout={this.props.handleLogout} />
           <Route exact path="/preferences" component={Preferences} />
           <Route exact path="/logout" component={Logout} />
-        <div>
+          <div>
             {this.state.showRestaurantInfo && (
               <RestaurantInfo
                 randomMatch={this.state.randomMatch}
@@ -556,8 +556,9 @@ export default class Home extends Component {
                 longData={this.state.longData}
               />
             )}
-            </div>
-          </div>)
+          </div>
+        </div>
+      );
     }
     return (
       <Router>
@@ -568,7 +569,7 @@ export default class Home extends Component {
 
           <div>
             {/* <RestaurantInfo randomMatch={this.state.randomMatch} latData={this.state.latData} longData={this.state.longData}/> */}
-            {this.state.showWaitingorRoulette && currentTime < "13:00:00" ? (
+            {this.state.showWaitingorRoulette && currentTime < "17:59:59" ? (
               <Waiting currentTime={currentTime} />
             ) : (
               <Roulette handleClick={this.handleClick} />
