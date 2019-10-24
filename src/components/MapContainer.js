@@ -7,15 +7,26 @@ const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 class MapContainer extends Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+            latData: '',
+            longData: ''
+        }
     }
 
+    componentDidMount() {
+        this.setState({ 
+            latData : this.props.latData,
+            longData: this.props.longData
+        })
+    }
 
     render() {
-        console.log(this.props)
         return (
             <Map
+            style={{ width: '75%', height: '75%' }}
             google={this.props.google}
-            zoom={16}
+            zoom={18}
             center={{ lat: parseFloat(this.props.latData), lng: parseFloat(this.props.longData) }} >
                 <Marker position={{ lat: parseFloat(this.props.latData), lng: parseFloat(this.props.longData) }} />
             </Map>
