@@ -104,8 +104,51 @@ export default class Home extends Component {
   };
 
   icon = () => {
+    //fixing-signup-bug
     return <span class ="logo">
       <div className="img-div">
+    <span class ="logo">
+      
+
+      
+    </span>
+  }
+
+  render() {
+    console.log(this.props.user);
+    let today = new Date();
+    let date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    let currentTime =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    console.log("time format ", currentTime);
+
+    // let currentDateTime = date + " " + time;
+    // console.log("dateTime format ", dateTime);
+
+    // if (currentTime > "16:00:00") {
+    //   console.log("Time is past 4pm");
+    // } else {
+    //   console.log("Wait until 4pm");
+    // }
+
+    //conditional logic to be added for displaying componenets below:
+    //If time is before 5pm display roulette
+    /* <Route exact path="/roulette" component={Roulette} />
+    else
+    <Route exact path="/restaurant" component={Restaurant} /> */
+
+    return (
+      <Router>
+        <div>
+          <NavBar handleLogout={this.props.handleLogout}/>
+          <Route exact path="/preferences" component={Preferences} />
+          <Route exact path="/logout" component={Logout} />
+          <div className="img-div">
           <svg width="334.48pt" height="191.4pt" viewBox="75.26 39.3 334.48 191.4" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                     <clipPath id="a">
