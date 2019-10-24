@@ -35,6 +35,9 @@ export default class Home extends Component {
     fetch(url, { method: "POST" })
       .then(response => response.json())
       .then(data => {
+        console.log("data response ========", data);
+        console.log("state ======", this.state.user);
+        console.log("api key", apiKey);
         let latitude = data.results[0].geometry.location.lat;
         let longitude = data.results[0].geometry.location.lng;
         //console.log("Lat = ", latitude, " Long = ", longitude);
