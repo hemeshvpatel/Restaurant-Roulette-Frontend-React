@@ -15,8 +15,8 @@ export default class Signup extends Component {
       email: "",
       password: "",
       password_confirmation: "",
-      zipcode: 0,
-      radius: 0,
+      zipcode: '',
+      radius: '',
       preferences: [],
       user: "",
       isSignedUp: false
@@ -55,18 +55,20 @@ export default class Signup extends Component {
           localStorage.setItem("jwt", response.jwt);
           this.setState({ user: response.user });
           this.createCuisinePreferences(this.state.user)
-          this.getRecentUserInfo()
-          // this.props.history.push("/home");
+          this.getRecentUserInfo() 
         })
-        // .then(this.createCuisinePreferences(this.state.user))
-        // .then(this.getRecentUserInfo());
-        // this.props.history.push("/home")
     } else alert("Passwords don't match - try again!");
   };
 
+  redirect = () => {
+    if (this.state.user.cuisine_preferences === 0) {
+      alert("Whoops! You didn't select any preferences!")
+    } else {
+        this.props.history.push("/home");
+    }
+  }
+
   createCuisinePreferences = (user) => {
-    console.log(this.state.user)
-    console.log('2) create preferences')
     this.state.preferences.map((cuisine_id, index) => {
       fetch("http://localhost:3000/api/cuisine_preferences", {
         method: "POST",
@@ -93,6 +95,7 @@ export default class Signup extends Component {
       .then(resp => {
         this.setState({ user: resp });
         this.props.userSignUp(resp);
+        this.redirect();
       });
     console.log(`success!`, this.state.user)
   }
@@ -172,7 +175,7 @@ export default class Signup extends Component {
   }
 
   render() {
-    console.log("CURRENT STATE = ", this.state)
+    console.log("CURRENT STATE = ", this.state.user)
     return (
       <div>
         <React.Fragment>
