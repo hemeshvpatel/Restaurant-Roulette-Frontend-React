@@ -3,11 +3,11 @@ import { NavLink } from "react-router-dom";
 
 
 const NavBar = (props) => {
-    
-    
-    console.log(props)
   return (
     <ul className="nav nav-pills justify-content-end">
+        <li className="nav-item">
+            {props.icon}
+        </li>
       <li className="nav-item">
         <NavLink className="nav-link active m-2" to="/preferences">
           Preferences

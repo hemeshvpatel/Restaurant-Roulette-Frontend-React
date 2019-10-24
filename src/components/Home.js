@@ -18,7 +18,8 @@ export default class Home extends Component {
     restaurantName: "",
     showWaitingorRoulette: true,
     showRestaurantInfo: false,
-    randomCuisine: ''
+    randomCuisine: '',
+    user: ''
   };
 
 
@@ -48,7 +49,7 @@ export default class Home extends Component {
     fetch(`http://localhost:3000/api/users/${this.props.user.id}`)
     .then(resp => resp.json())
     .then(data => {
-        console.log(data)
+        this.setState({ user: data })
         // const cuisinePreferences = data.cuisine_preferences
         // let randomCuisine = cuisinePreferences[Math.floor(Math.random() * cuisinePreferences.length)]
         // this.setState({ randomCuisine: randomCuisine.cuisine.kind })
@@ -103,6 +104,9 @@ export default class Home extends Component {
   };
 
   icon = () => {
+    //fixing-signup-bug
+    return <span class ="logo">
+      <div className="img-div">
     <span class ="logo">
       
 
@@ -326,6 +330,42 @@ export default class Home extends Component {
                     </g>
                     </svg>
           </div>
+    </span>
+  }
+
+  render() {
+    let today = new Date();
+    let date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    let currentTime =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+    // let currentDateTime = date + " " + time;
+    // console.log("dateTime format ", dateTime);
+
+    // if (currentTime > "16:00:00") {
+    //   console.log("Time is past 4pm");
+    // } else {
+    //   console.log("Wait until 4pm");
+    // }
+
+    //conditional logic to be added for displaying componenets below:
+    //If time is before 5pm display roulette
+    /* <Route exact path="/roulette" component={Roulette} />
+    else
+    <Route exact path="/restaurant" component={Restaurant} /> */
+
+    return (
+      <Router>
+        <div>
+          <NavBar icon={this.icon} handleLogout={this.props.handleLogout}/>
+          <Route exact path="/preferences" component={Preferences} />
+          <Route exact path="/logout" component={Logout} />
+          
           <div>
           {/* <RestaurantInfo randomMatch={this.state.randomMatch} latData={this.state.latData} longData={this.state.longData}/> */}
             {this.state.showWaitingorRoulette && currentTime < "16:00:00" ? (

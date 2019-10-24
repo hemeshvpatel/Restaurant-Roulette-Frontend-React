@@ -3,6 +3,8 @@ import Signup from './Signup';
 import { Link } from 'react-router-dom'
 
 export default class Login extends Component {
+    // isMounted = false;
+    
     constructor() {
         super()
 
@@ -20,30 +22,35 @@ export default class Login extends Component {
         })
     }
 
-    handleLogin = (event) => {
-        event.preventDefault()
-        fetch('http://localhost:3000/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json' 
-            },
-            body: JSON.stringify({
-                "user": {
-                    "email": this.state.email,
-                    "password": this.state.password
-                  }
+        handleLogin = (event) => {
+            event.preventDefault()
+            fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json' 
+                },
+                body: JSON.stringify({
+                    "user": {
+                        "email": this.state.email,
+                        "password": this.state.password
+                      }
+                })
             })
-        })
-        .then(resp => resp.json())
-        .then(response => {
-            localStorage.setItem("jwt", response.jwt)
-            this.setState({ user: response.user })
-            this.props.userLogIn(response.user)
-            this.props.loggedIn(true)
-            this.props.history.push('/home')
-        })
-    }
+            .then(resp => resp.json())
+            .then(response => {
+                    localStorage.setItem("jwt", response.jwt)
+                    this.props.userLogIn(response)
+                
+            })
+        }
+    
+
+    // componentWillUnmount() {
+    //     this._isMounted = false;
+    // }
+    
+            
 
     // handleLogout = (event) => {
     //     event.preventDefault()
