@@ -4,7 +4,7 @@ class Roulette extends Component {
   render() {
     return (
       <div>
-        <div>
+        <div align="center">
           <h1>Go ahead, try your luck!</h1>
         </div>
 

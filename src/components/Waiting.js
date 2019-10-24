@@ -9,7 +9,7 @@ class Waiting extends Component {
     const renderer = ({ hours, minutes, seconds, completed }) => {
       if (completed) {
         // Render a completed state
-        return <Roulette handleClick={this.handleClick} />;
+        return <Roulette handleClick={this.props.handleClick} />;
       } else {
         // Render a countdown
         return (
@@ -40,7 +40,8 @@ class Waiting extends Component {
     return (
       <div align="center">
         <h1> Come Back in ... </h1>
-        <Countdown date={Date.now() + diffmili} renderer={renderer} />
+        {/* <Countdown date={Date.now() + diffmili} renderer={renderer} /> */}
+        <Countdown date={Date.now() + 5000} renderer={renderer} />
       </div>
     );
   }
