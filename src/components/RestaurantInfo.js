@@ -11,6 +11,7 @@ class RestaurantInfo extends Component {
   }
 
   render() {
+    //console.log(this.props.randomMatch)
     return (
       <div class="container">
         <div class="row">

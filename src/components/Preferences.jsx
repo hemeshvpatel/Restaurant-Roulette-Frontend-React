@@ -5,13 +5,63 @@ class Preferences extends Component {
     super(props);
     this.state = {
       user: this.props.user,
-      userCuisines: this.props.user.cuisine_preferences,
-      cuisines: this.props.cuisines
+      userCuisines: [],
+      cuisines: this.props.cuisines,
+      zipcode: this.props.user.zipcode,
+      radius: this.props.user.radius
     };
   }
+
+  handleCheckBoxChange = event => {
+    if (this.state.userCuisines.includes(event.target.id)) {
+      let newPreferences = this.state.userCuisines.filter(id => {
+        return id !== event.target.id;
+      });
+      this.setState({ userCuisines: newPreferences });
+    } else {
+      this.state.userCuisines.push(event.target.id);
+    }
+  };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+  handleSubmit = (event) => {
+      event.preventDefault();
+      fetch(`http://localhost:3000/api/users/${this.state.user.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+            zipcode: parseInt(this.state.zipcode),
+            radius: parseInt(this.state.radius)
+        })
+      })
+        .then(resp => resp.json())
+        .then(response => {
+          console.log(response)
+          // localStorage.setItem("jwt", response.jwt);
+          // this.setState({ 
+          //   zipcode: response.user });
+          // this.createCuisinePreferences(this.state.user)
+          // this.getRecentUserInfo() 
+        })
+  }
+
+  handleClick = (event) => {
+    event.preventDefault();
+    this.props.history.push('/home')
+  }
+
   render() {
     console.log("Preferences State = ", this.state);
     return (
+      <form onSubmit={this.handleSubmit}>
       <div className="container">
         <div className="row">
           <div className="col-4"></div>
@@ -21,7 +71,7 @@ class Preferences extends Component {
                 <b>preferences:</b>
               </h4>
               <small>
-                <i>what kind of food do you like?</i>
+                <i>update your food preferences!</i>
               </small>
               <br />
               {this.state.cuisines.map((cuisine, index) => {
@@ -35,7 +85,7 @@ class Preferences extends Component {
                         name={cuisine.kind}
                         value={this.props.isChecked}
                         type="checkbox"
-                        onChange={this.props.handleCheckBoxChange}
+                        onChange={this.handleCheckBoxChange}
                       />
                     </label>
                   </div>
@@ -46,7 +96,7 @@ class Preferences extends Component {
                 <b>zipcode:</b>
               </h4>
               <small>
-                <i>where are you normally searching for dinner?</i>
+                <i>update your zipcode.</i>
               </small>
               <input
                 className="form-control"
@@ -55,7 +105,7 @@ class Preferences extends Component {
                 type="text"
                 placeholder="5 digit zip-code"
                 value={this.state.zipcode}
-                onChange={this.props.handleChange}
+                onChange={this.handleChange}
               />
               <br />
               <h4>
@@ -69,14 +119,22 @@ class Preferences extends Component {
                 name="radius"
                 id="radius"
                 type="text"
-                placeholder="Radius"
-                value={this.props.radius}
-                onChange={this.props.handleChange}
+                placeholder="Miles"
+                value={this.state.radius}
+                onChange={this.handleChange}
               />
+              <input
+                type="submit"
+                value="Update preferences!"
+                className="button"
+                style={{ width: "100%%", marginLeft: "auto", marginRight: "auto" }}
+              />
+              <small style={{ color: '#5C5932'}}>All finished? <b onClick={(e) => this.props.handlePreferences()} className="link">Go back home.</b></small>
             </div>
           </div>
         </div>
       </div>
+      </form>
     );
   }
 }

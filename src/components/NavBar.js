@@ -12,7 +12,9 @@ const NavBar = props => {
       <ul className="nav nav-pills justify-content-end">
         <li className="nav-item">{props.icon}</li>
         <li className="nav-item">
-          <NavLink className="button" to="/preferences">
+          <NavLink className="button" 
+          to="/preferences"
+          onClick={props.handlePreferences}>
             Preferences
           </NavLink>
         </li>
@@ -21,7 +23,7 @@ const NavBar = props => {
             className="button"
             tabIndex="-1"
             to="/logout"
-            onClick={props.handleLogout()}
+            onClick={props.handleLogout}
           >
             Logout
           </NavLink>

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 
 class Weather extends Component {
   state = {
-    weather: ""
+    weather: "",
+    temperature: 0
   };
 
   componentDidMount() {
@@ -24,9 +25,10 @@ class Weather extends Component {
     })
       .then(response => response.json())
       .then(weatherData => {
-        console.log("Weather Data = ", weatherData);
+        //console.log("Weather Data = ", weatherData);
         this.setState({
-          weather: weatherData
+          weather: weatherData,
+          temperature: weatherData.main.temp
         });
       });
   };
@@ -34,15 +36,15 @@ class Weather extends Component {
   //http://openweathermap.org/img/w/10d.png <<change with icon data
 
   render() {
-    console.log("Weather Component State: ", this.state.weather.main);
-    // const tempF = (9 / 5) * (parseFloat(this.state.weather.main) - 273) + 32;
+    //console.log("Weather Component State: ", this.state.weather.main);
+    const tempF = (9 / 5) * (parseFloat(this.state.temperature) - 273) + 32;
     // if (this.state.weather !== "") {
     return (
       <div>
         <h3>Weather</h3>
-        {/* <h4>feels like {tempF}</h4> */}
-        <h5>{this.state.weather && this.state.weather.weather[0].main}</h5>
-        <p>{this.state.weather && this.state.weather.weather[0].description}</p>
+        <p>Feels like {tempF.toFixed(0)} degrees</p>
+        {/* <h5>{this.state.weather && this.state.weather.weather[0].main}</h5> */}
+        <p>Looks like {this.state.weather && this.state.weather.weather[0].description}</p>
       </div>
     );
   }
