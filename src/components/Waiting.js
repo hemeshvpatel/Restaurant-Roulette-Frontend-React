@@ -13,8 +13,9 @@ class Waiting extends Component {
       } else {
         // Render a countdown
         return (
-          <span>
-            {hours}:{minutes}:{seconds}
+          <span className="header" style={{ fontSize: '100px', font: 'Gudea' }}>
+            {hours}:{minutes}:{seconds} <br />
+            <h1 className="header" style={{ fontSize: '75px'}}>Come back soon!</h1>
           </span>
         );
       }
@@ -38,10 +39,11 @@ class Waiting extends Component {
     // console.log("difmili ", diffmili);
 
     return (
-      <div align="center">
-        <h1> Come Back in ... </h1>
+      <div>
+        <div align="center">
+          <Countdown date={Date.now() + 2000} renderer={renderer} />
+        </div>
         {/* <Countdown date={Date.now() + diffmili} renderer={renderer} /> */}
-        <Countdown date={Date.now() + 2000} renderer={renderer} />
       </div>
     );
   }

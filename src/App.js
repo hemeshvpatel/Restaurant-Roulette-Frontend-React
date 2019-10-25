@@ -60,6 +60,7 @@ class App extends Component {
   };
 
   render() {
+    console.log(this.state.user)
     if (this.state.user === true) {
       return <Redirect to="/home" />;
     }
@@ -90,17 +91,24 @@ class App extends Component {
             )}
           />
           {this.state.user ? (
-            <Route
-              exact
-              path="/home"
-              render={() => (
-                <Home
-                  user={this.state.user}
-                  handleLogout={event => this.handleLogout}
-                  cuisines={this.state.cuisines}
-                />
-              )}
+            <Home 
+            history={this.history}
+            user={this.state.user}
+            handleLogout={event => this.handleLogout}
+            cuisines={this.state.cuisines}
             />
+            // <Route
+            //   exact
+            //   path="/home"
+            //   render={() => (
+            //     <Home
+            //       history={this.history}
+            //       user={this.state.user}
+            //       handleLogout={event => this.handleLogout}
+            //       cuisines={this.state.cuisines}
+            //     />
+            //   )}
+            // />
           ) : (
             <Redirect from="/home" to="/login" />
           )}

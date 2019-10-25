@@ -16,12 +16,14 @@ export default class Home extends Component {
     longData: 0,
     placeID: "",
     restaurantName: "",
-    showWaitingorRoulette: true,
+    showWaitingorRoulette: false,
     showRestaurantInfo: false,
     showPreferences: false,
+    hasShownRestaurant: false,
     randomCuisine: "",
     user: "",
-    cuisines: this.props.cuisines
+    cuisines: this.props.cuisines,
+    // style: true
   };
 
   componentDidMount() {
@@ -32,11 +34,12 @@ export default class Home extends Component {
   fetchCoordinates = () => {
     const zipcode = this.props.user.zipcode;
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=austin&components=postal_code:"+${zipcode}+"&sensor=false&key=${apiKey}`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:"+${zipcode}+"&sensor=false&key=${apiKey}`;
 
     fetch(url, { method: "POST" })
       .then(response => response.json())
       .then(data => {
+        console.log(data, url)
         let latitude = data.results[0].geometry.location.lat;
         let longitude = data.results[0].geometry.location.lng;
         //console.log("Lat = ", latitude, " Long = ", longitude);
@@ -76,7 +79,6 @@ export default class Home extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        //console.log("Fetch Restaurant Data: ", data);
         const allMatches = data.results;
         const randomResult =
           allMatches[Math.floor(Math.random() * allMatches.length)];
@@ -97,14 +99,18 @@ export default class Home extends Component {
   handleClick = e => {
     this.setState({
       showWaitingorRoulette: false,
-      showRestaurantInfo: true
+      showRestaurantInfo: true,
+      hasShownRestaurant: true
     });
   };
 
-  handlePreferences = e => {
-    e.preventDefault();
-    console.log("Preferences button clicked!");
-    this.setState({ showPreferences: true });
+  handlePreferences = (event) => {
+    console.log("I'm being clicked!")
+    this.setState({ 
+      showPreferences: !this.state.showPreferences,
+      showRestaurantInfo: this.state.showPreferences 
+    });
+    this.forceUpdate();
   };
 
   icon = () => {
@@ -524,7 +530,8 @@ export default class Home extends Component {
   };
 
   render() {
-    console.log("Current State: ", this.state.showPreferences);
+console.log('restaurant info! =====>', this.state.showRestaurantInfo)
+console.log('preferences info======>', this.state.showPreferences)
     let today = new Date();
     let date =
       today.getFullYear() +
@@ -535,21 +542,7 @@ export default class Home extends Component {
     let currentTime =
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-    // let currentDateTime = date + " " + time;
-    // console.log("dateTime format ", dateTime);
-
-    // if (currentTime > "16:00:00") {
-    //   console.log("Time is past 4pm");
-    // } else {
-    //   console.log("Wait until 4pm");
-    // }
-
-    //conditional logic to be added for displaying componenets below:
-    //If time is before 5pm display roulette
-    /* <Route exact path="/roulette" component={Roulette} />
-    else
-    <Route exact path="/restaurant" component={Restaurant} /> */
-    if (this.state.showRestaurantInfo === true) {
+    if (this.state.showRestaurantInfo) {
       return (
         <Router>
           <div>
@@ -560,7 +553,7 @@ export default class Home extends Component {
               render={props => (
                 <Preferences
                   {...props}
-                  handlePreferences={e => this.handlePreferences()}
+                  handlePreferences={this.handlePreferences}
                   user={this.state.user}
                   cuisines={this.state.cuisines}
                 />
@@ -578,14 +571,74 @@ export default class Home extends Component {
             </div>
           </div>
         </Router>
-      );
-    }
-    return (
-      <Router>
+      ); 
+    } else if (this.state.showPreferences === true) {
+      return (
+        <Router>
+          <NavBar
+              icon={this.icon}
+              handleLogout={this.props.handleLogout}
+              handlePreferences={this.handlePreferences}
+              cuisines={this.props.cuisines}
+              user={this.props.user}
+            />
+            <Route
+              exact
+              path="/preferences"
+              render={props => (
+                <Preferences
+                  {...props}
+                  handlePreferences={this.handlePreferences}
+                  user={this.state.user}
+                  cuisines={this.state.cuisines}
+                />
+              )}
+            />
+            <Route exact path="/logout" component={Logout} />
+          </Router>
+      )
+    } else if (this.state.showPreferences === false) {
+      return (
+        <Router>
+          <div>
+            <NavBar
+              icon={this.icon}
+              handleLogout={this.props.handleLogout}
+              handlePreferences={this.handlePreferences}
+              cuisines={this.props.cuisines}
+              user={this.props.user}
+            />
+            <Route
+              exact
+              path="/preferences"
+              render={props => (
+                <Preferences
+                  {...props}
+                  handlePreferences={this.handlePreferences}
+                  user={this.state.user}
+                  cuisines={this.state.cuisines}
+                />
+              )}
+            />
+            <Route exact path="/logout" component={Logout} />
+            <div> 
+              {!this.state.showWaitingorRoulette &&
+              currentTime < "17:59:59" ? (
+                <Waiting handleClick={this.handleClick} />
+              ) : (
+                <Roulette handleClick={this.handleClick} />
+              )}
+            </div>
+          </div>
+        </Router>
+      )
+    } else if (this.state.showPreferences === false && this.state.hasShownRestaurant === true) {
+      return (<Router>
         <div>
           <NavBar
             icon={this.icon}
             handleLogout={this.props.handleLogout}
+            handlePreferences={this.handlePreferences}
             cuisines={this.props.cuisines}
             user={this.props.user}
           />
@@ -595,25 +648,52 @@ export default class Home extends Component {
             render={props => (
               <Preferences
                 {...props}
-                handlePreferences={e => this.handlePreferences()}
+                handlePreferences={this.handlePreferences}
                 user={this.state.user}
                 cuisines={this.state.cuisines}
               />
             )}
           />
           <Route exact path="/logout" component={Logout} />
-          <div>
-            {/* <RestaurantInfo randomMatch={this.state.randomMatch} latData={this.state.latData} longData={this.state.longData}/> */}
-            {this.state.showWaitingorRoulette &&
-            !this.state.showPreferences &&
-            currentTime < "15:59:59" ? (
-              <Waiting handleClick={this.handleClick} />
-            ) : (
-              <Roulette handleClick={this.handleClick} />
-            )}
+          <div> 
+          <RestaurantInfo
+                  randomMatch={this.state.randomMatch}
+                  latData={this.state.latData}
+                  longData={this.state.longData}
+                />
           </div>
         </div>
       </Router>
-    );
-  }
+      )
+    } else if (this.state.showPreferences === false && this.state.hasShownRestaurant === false ) {
+      return (
+      <Router>
+        <div>
+          <NavBar
+            icon={this.icon}
+            handleLogout={this.props.handleLogout}
+            handlePreferences={this.handlePreferences}
+            cuisines={this.props.cuisines}
+            user={this.props.user}
+          />
+          <Route
+            exact
+            path="/preferences"
+            render={props => (
+              <Preferences
+                {...props}
+                handlePreferences={this.handlePreferences}
+                user={this.state.user}
+                cuisines={this.state.cuisines}
+              />
+            )}
+          />
+          <Route exact path="/logout" component={Logout} />
+          <div> 
+              <Roulette handleClick={this.handleClick} />
+          </div>
+        </div>
+      </Router>
+    )};
+  } 
 }

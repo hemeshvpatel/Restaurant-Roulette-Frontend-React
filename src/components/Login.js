@@ -65,7 +65,7 @@ export default class Login extends Component {
     render() {
         return(
             <div>
-            <div className="pb-2 mt-4 mb-2">
+            <div className="pb-2 mt-4 mb-2" align="center">
                     <h1 className="header" style={{ fontSize: '75px'}}>Restaurant Roulette</h1>
                     </div>
             <div className="container">

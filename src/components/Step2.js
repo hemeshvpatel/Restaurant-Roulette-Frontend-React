@@ -67,7 +67,7 @@ export default class Step2 extends Component {
                 name="radius"
                 id="radius"
                 type="text"
-                placeholder="Radius"
+                placeholder="Miles"
                 value={this.props.radius}
                 onChange={this.props.handleChange}
               />

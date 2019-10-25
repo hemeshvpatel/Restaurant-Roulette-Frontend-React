@@ -4,10 +4,11 @@ class Roulette extends Component {
   render() {
     return (
       <div>
+        <br />
         <div align="center">
-          <h1>Go ahead, try your luck!</h1>
+          <h1 className="header">Go ahead, try your luck!</h1>
         </div>
-
+        <br />
         <div className="img-div">
           <img
             src="./roulette-svgrepo-com.svg"

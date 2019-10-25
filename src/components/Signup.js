@@ -179,7 +179,7 @@ export default class Signup extends Component {
     return (
       <div>
         <React.Fragment>
-          <div className="pb-2 mt-4 mb-2">
+          <div className="pb-2 mt-4 mb-2" align="center">
             <h1 className="header" style={{ fontSize: "75px" }}>
               Restaurant Roulette
             </h1>
