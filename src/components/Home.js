@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import Preferences from "./Preferences";
-import Logout from "./Logout";
+import Logout from "./Weather";
 import { tsImportEqualsDeclaration } from "@babel/types";
 import Waiting from "./Waiting";
 import RestaurantInfo from "./RestaurantInfo";
