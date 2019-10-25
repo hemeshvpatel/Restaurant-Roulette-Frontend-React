@@ -24,24 +24,24 @@ class Waiting extends Component {
     let today = new Date();
     let currenTimeMinutes =
       today.getHours() * 60 + today.getMinutes() + today.getSeconds() / 60;
-    console.log("Hours = ", today.getHours());
-    console.log("Minutes = ", today.getMinutes());
-    console.log("Seconds = ", today.getSeconds());
-    console.log("Datenow fxn = ", Date.now());
-    console.log("CurrentTimeMin = ", currenTimeMinutes);
+    // console.log("Hours = ", today.getHours());
+    // console.log("Minutes = ", today.getMinutes());
+    // console.log("Seconds = ", today.getSeconds());
+    // console.log("Datenow fxn = ", Date.now());
+    // console.log("CurrentTimeMin = ", currenTimeMinutes);
     let fourpm = 15 * 60 + 59 + 59 / 60;
     let sixpm = 17 * 60 + 59 + 59 / 60;
 
     const diffmin = sixpm - currenTimeMinutes;
-    console.log("diffmin = ", sixpm - currenTimeMinutes);
+    // console.log("diffmin = ", sixpm - currenTimeMinutes);
     const diffmili = diffmin * 60000;
-    console.log("difmili ", diffmili);
+    // console.log("difmili ", diffmili);
 
     return (
       <div align="center">
         <h1> Come Back in ... </h1>
         {/* <Countdown date={Date.now() + diffmili} renderer={renderer} /> */}
-        <Countdown date={Date.now() + 5000} renderer={renderer} />
+        <Countdown date={Date.now() + 2000} renderer={renderer} />
       </div>
     );
   }

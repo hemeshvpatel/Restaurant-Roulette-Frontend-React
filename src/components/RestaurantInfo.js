@@ -1,31 +1,36 @@
 import React, { Component } from "react";
-import MapContainer from './MapContainer'
-import Restaurant from './Restaurant'
+import MapContainer from "./MapContainer";
+import Restaurant from "./Restaurant";
+import Weather from "./Weather";
 
 class RestaurantInfo extends Component {
-    constructor(props){
-        super(props)
-        
-        this.state = {
+  constructor(props) {
+    super(props);
 
-        };
+    this.state = {};
+  }
 
-    }
-  
   render() {
     return (
       <div class="container">
         <div class="row">
           <div class="col">
-          <Restaurant restaurant={this.props.randomMatch}/>
+            <Restaurant restaurant={this.props.randomMatch} />
           </div>
           <div class="col">
-          <script type='text/javascript' src="//www.opentable.com/widget/reservation/loader?rid=412810&type=standard&theme=standard&iframe=true&domain=com&lang=en-US&newtab=false"></script>
+            <Weather
+              latData={this.props.latData}
+              longData={this.props.longData}
+              restaurant={this.props.randomMatch}
+            />
           </div>
-          </div>
-          <div>
-          <MapContainer latData={this.props.latData} longData={this.props.longData} />
-          </div>
+        </div>
+        <div>
+          <MapContainer
+            latData={this.props.latData}
+            longData={this.props.longData}
+          />
+        </div>
       </div>
     );
   }
