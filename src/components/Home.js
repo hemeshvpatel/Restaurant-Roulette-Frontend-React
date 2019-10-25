@@ -57,16 +57,16 @@ export default class Home extends Component {
 
   fetchRestaurant = (latitude, longitude) => {
     // PLEASE UNCOMMENT THE FOLLOWING LINE AS A CORS WORK AROUND.
-    const proxyURL = "https://cors-anywhere.herokuapp.com/";
+    // const proxyURL = "https://cors-anywhere.herokuapp.com/";
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
     const cuisine1 = this.state.randomCuisine;
     const miles = this.props.user.radius;
     const radius = miles * 1600;
     // PLEASE UNCOMMENT THE FOLLOWING LINE AS A CORS WORK AROUND
-    const urlNearbySearch = `${proxyURL}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=restaurant&keyword=${cuisine1}&key=${apiKey}`;
+    // const urlNearbySearch = `${proxyURL}https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=restaurant&keyword=${cuisine1}&key=${apiKey}`;
 
     //COMMENT OUT THIS LINE IF YOU'RE USING THE ABOVE CORS WORK AROUNDS.
-    // const urlNearbySearch = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=restaurant&keyword=${cuisine1}&key=${apiKey}`;
+    const urlNearbySearch = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=restaurant&keyword=${cuisine1}&key=${apiKey}`;
 
     fetch(urlNearbySearch, {
       method: "GET",
@@ -544,6 +544,7 @@ export default class Home extends Component {
     <Route exact path="/restaurant" component={Restaurant} /> */
     if (this.state.showRestaurantInfo === true) {
       return (
+        <Router>
         <div>
           <NavBar icon={this.icon} handleLogout={this.props.handleLogout} />
           <Route exact path="/preferences" component={Preferences} />
@@ -558,6 +559,7 @@ export default class Home extends Component {
             )}
           </div>
         </div>
+        </Router>
       );
     }
     return (

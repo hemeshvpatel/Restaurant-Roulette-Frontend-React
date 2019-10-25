@@ -12,7 +12,8 @@ const NavBar = props => {
       <ul className="nav nav-pills justify-content-end">
         <li className="nav-item">{props.icon}</li>
         <li className="nav-item">
-          <NavLink className="button" to="/preferences">
+          <NavLink className="button" 
+          to="/preferences">
             Preferences
           </NavLink>
         </li>
