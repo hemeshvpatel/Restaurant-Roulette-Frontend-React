@@ -6,6 +6,7 @@ class Preferences extends Component {
     super(props);
     this.state = {
       user: this.props.user,
+      userNewCuisines: [],
       userCuisines: [],
       cuisines: this.props.cuisines,
       zipcode: this.props.user.zipcode,
@@ -13,14 +14,28 @@ class Preferences extends Component {
     };
   }
 
+  componentDidMount() {
+    fetch(
+      "https://restaurant-roulette-backend.herokuapp.com/api/cuisine_preferences/"
+    )
+      .then(resp => resp.json())
+      .then(resp => {
+        let filtered = resp.filter(cuisine => {
+          return cuisine.user_id === this.state.user.id;
+        });
+        console.log(filtered);
+        this.setState({ userCuisines: filtered });
+      });
+  }
+
   handleCheckBoxChange = event => {
     if (this.state.userCuisines.includes(event.target.id)) {
       let newPreferences = this.state.userCuisines.filter(id => {
         return id !== event.target.id;
       });
-      this.setState({ userCuisines: newPreferences });
+      this.setState({ userNewCuisines: newPreferences });
     } else {
-      this.state.userCuisines.push(event.target.id);
+      this.state.userNewCuisines.push(event.target.id);
     }
   };
 
@@ -47,14 +62,44 @@ class Preferences extends Component {
       }
     )
       .then(resp => resp.json())
-      .then(response => {
-        console.log(response);
-        // localStorage.setItem("jwt", response.jwt);
-        // this.setState({
-        //   zipcode: response.user });
-        // this.createCuisinePreferences(this.state.user)
-        // this.getRecentUserInfo()
-      });
+      .then(resp => {
+        console.log(resp);
+      })
+      .then(
+        this.state.userCuisines.map(cuisine => {
+          fetch(
+            `https://restaurant-roulette-backend.herokuapp.com/api/cuisine_preferences/${cuisine.id}`,
+            { method: "DELETE" }
+          ).then(resp => {
+            console.log(
+              "Users current cuisines are gone and this message should appear three times",
+              resp
+            );
+          });
+        })
+      )
+      .then(
+        this.state.userNewCuisines.map(cuisine_id => {
+          fetch(
+            `https://restaurant-roulette-backend.herokuapp.com/api/cuisine_preferences`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+              },
+              body: JSON.stringify({
+                user_id: this.state.user.id,
+                cuisine_id: cuisine_id
+              })
+            }
+          )
+            .then(resp => resp.json())
+            .then(resp => {
+              console.log("Cuisine has been added to preference! =>", resp);
+            });
+        })
+      );
   };
 
   handleClick = event => {
