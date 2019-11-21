@@ -32,7 +32,7 @@ export default class Signup extends Component {
   handleSubmit = event => {
     if (this.state.password === this.state.password_confirmation) {
       event.preventDefault();
-      fetch("http://localhost:3000/api/users/", {
+      fetch("https://restaurant-roulette-backend.herokuapp.com/api/users/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,7 +70,7 @@ export default class Signup extends Component {
 
   createCuisinePreferences = (user) => {
     this.state.preferences.map((cuisine_id, index) => {
-      fetch("http://localhost:3000/api/cuisine_preferences", {
+      fetch("https://restaurant-roulette-backend.herokuapp.com/api/cuisine_preferences", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export default class Signup extends Component {
 
   getRecentUserInfo = () => {
     console.log('3) get most recent user info')
-    fetch(`http://localhost:3000/api/users/${this.state.user.id}`)
+    fetch(`https://restaurant-roulette-backend.herokuapp.com/api/users/${this.state.user.id}`)
       .then(resp => resp.json())
       .then(resp => {
         this.setState({ user: resp });

@@ -11,25 +11,25 @@ class RestaurantInfo extends Component {
   }
 
   render() {
-    //console.log(this.props.randomMatch)
+    console.log(this.props);
     return (
       <div class="container">
         <div class="row">
           <div class="col">
-            <Restaurant restaurant={this.props.randomMatch} />
+            <Restaurant restaurant={this.props.restaurant} />
           </div>
           <div class="col">
             <Weather
-              latData={this.props.latData}
-              longData={this.props.longData}
-              restaurant={this.props.randomMatch}
+              latData={this.props.restaurant.geometry.location.lat}
+              longData={this.props.restaurant.geometry.location.lng}
+              restaurant={this.props.restaurant}
             />
           </div>
         </div>
         <div>
           <MapContainer
-            latData={this.props.latData}
-            longData={this.props.longData}
+            latData={this.props.restaurant.geometry.location.lat}
+            longData={this.props.restaurant.geometry.location.lng}
           />
         </div>
       </div>

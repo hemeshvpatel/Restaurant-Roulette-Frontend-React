@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Roulette extends Component {
   render() {
@@ -10,12 +11,13 @@ class Roulette extends Component {
         </div>
         <br />
         <div className="img-div">
-          <img
-            src="./roulette-svgrepo-com.svg"
-            className="rotate"
-            style={{ maxWidth: "650px", margin: "0 auto 0 auto" }}
-            onClick={e => this.props.handleClick(e)}
-          />
+          <Link to="/home/dinner">
+            <img
+              src="./roulette-svgrepo-com.svg"
+              className="rotate"
+              style={{ maxWidth: "650px", margin: "0 auto 0 auto" }}
+            ></img>
+          </Link>
         </div>
       </div>
     );
