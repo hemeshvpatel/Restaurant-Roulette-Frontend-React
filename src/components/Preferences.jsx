@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { Message } from "semantic-ui-react";
 
 class Preferences extends Component {
   constructor(props) {
@@ -10,7 +11,8 @@ class Preferences extends Component {
       userCuisines: [],
       cuisines: this.props.cuisines,
       zipcode: this.props.user.zipcode,
-      radius: this.props.user.radius
+      radius: this.props.user.radius,
+      showMessage: false
     };
   }
 
@@ -64,6 +66,7 @@ class Preferences extends Component {
       .then(resp => resp.json())
       .then(resp => {
         console.log(resp);
+        this.setState({ showMessage: true });
       })
       .then(
         this.state.userCuisines.map(cuisine => {
@@ -110,89 +113,98 @@ class Preferences extends Component {
   render() {
     console.log("Preferences State = ", this.state);
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="container">
-          <div className="row">
-            <div className="col-4"></div>
-            <div className="col-4">
-              <div className="form-group">
-                <h4>
-                  <b>preferences:</b>
-                </h4>
-                <small>
-                  <i>update your food preferences!</i>
-                </small>
-                <br />
-                {this.state.cuisines.map((cuisine, index) => {
-                  return (
-                    <div class="form-check form-check-inline">
-                      <label class="form-check-label" key={index}>
-                        {cuisine.kind}
-                        <input
-                          class="form-check-input"
-                          id={cuisine.id}
-                          name={cuisine.kind}
-                          value={this.props.isChecked}
-                          type="checkbox"
-                          onChange={this.handleCheckBoxChange}
-                        />
-                      </label>
-                    </div>
-                  );
-                })}
-                <br />
-                <h4>
-                  <b>zipcode:</b>
-                </h4>
-                <small>
-                  <i>update your zipcode.</i>
-                </small>
-                <input
-                  className="form-control"
-                  name="zipcode"
-                  id="zipcode"
-                  type="text"
-                  placeholder="5 digit zip-code"
-                  value={this.state.zipcode}
-                  onChange={this.handleChange}
-                />
-                <br />
-                <h4>
-                  <b>radius:</b>
-                </h4>
-                <small>
-                  <i>how far are you willing to travel for grub?</i>
-                </small>
-                <input
-                  className="form-control"
-                  name="radius"
-                  id="radius"
-                  type="text"
-                  placeholder="Miles"
-                  value={this.state.radius}
-                  onChange={this.handleChange}
-                />
-                <input
-                  type="submit"
-                  value="Update preferences!"
-                  className="button"
-                  style={{
-                    width: "100%%",
-                    marginLeft: "auto",
-                    marginRight: "auto"
-                  }}
-                />
-                <small style={{ color: "#5C5932" }}>
-                  All finished?{" "}
-                  <b>
-                    <Link to="/home/dinner"> Go back home.</Link>
-                  </b>
-                </small>
+      <React.Fragment>
+        {this.state.showMessage ? (
+          <Message
+            success
+            header="Settings Were Updated"
+            content="Make sure you to come back tomorrow to see your updated restaurant selection!"
+          />
+        ) : null}
+        <form onSubmit={this.handleSubmit}>
+          <div className="container">
+            <div className="row">
+              <div className="col-4"></div>
+              <div className="col-4">
+                <div className="form-group">
+                  <h4>
+                    <b>preferences:</b>
+                  </h4>
+                  <small>
+                    <i>update your food preferences!</i>
+                  </small>
+                  <br />
+                  {this.state.cuisines.map((cuisine, index) => {
+                    return (
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label" key={index}>
+                          {cuisine.kind}
+                          <input
+                            class="form-check-input"
+                            id={cuisine.id}
+                            name={cuisine.kind}
+                            value={this.props.isChecked}
+                            type="checkbox"
+                            onChange={this.handleCheckBoxChange}
+                          />
+                        </label>
+                      </div>
+                    );
+                  })}
+                  <br />
+                  <h4>
+                    <b>zipcode:</b>
+                  </h4>
+                  <small>
+                    <i>update your zipcode.</i>
+                  </small>
+                  <input
+                    className="form-control"
+                    name="zipcode"
+                    id="zipcode"
+                    type="text"
+                    placeholder="5 digit zip-code"
+                    value={this.state.zipcode}
+                    onChange={this.handleChange}
+                  />
+                  <br />
+                  <h4>
+                    <b>radius:</b>
+                  </h4>
+                  <small>
+                    <i>how far are you willing to travel for grub?</i>
+                  </small>
+                  <input
+                    className="form-control"
+                    name="radius"
+                    id="radius"
+                    type="text"
+                    placeholder="Miles"
+                    value={this.state.radius}
+                    onChange={this.handleChange}
+                  />
+                  <input
+                    type="submit"
+                    value="Update preferences!"
+                    className="button"
+                    style={{
+                      width: "100%%",
+                      marginLeft: "auto",
+                      marginRight: "auto"
+                    }}
+                  />
+                  <small style={{ color: "#5C5932" }}>
+                    All finished?{" "}
+                    <b>
+                      <Link to="/home/dinner"> Go back home.</Link>
+                    </b>
+                  </small>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </React.Fragment>
     );
   }
 }
