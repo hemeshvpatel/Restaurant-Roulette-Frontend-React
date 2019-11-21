@@ -24,11 +24,11 @@ export default class Step2 extends Component {
               <br />
               {this.props.cuisines.map((cuisine, index) => {
                 return (
-                  <div class="form-check form-check-inline">
-                    <label class="form-check-label" key={index}>
+                  <div className="form-check form-check-inline">
+                    <label className="form-check-label" key={index}>
                       {cuisine.kind}
                       <input
-                        class="form-check-input"
+                        className="form-check-input"
                         id={cuisine.id}
                         name={cuisine.kind}
                         value={this.props.isChecked}
