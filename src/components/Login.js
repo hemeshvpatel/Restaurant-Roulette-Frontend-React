@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Signup from "./Signup";
 import { Link } from "react-router-dom";
+import { Form, Checkbox, Button } from "semantic-ui-react";
 
 export default class Login extends Component {
   constructor() {
@@ -69,7 +70,7 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <div className="pb-2 mt-4 mb-2" align="center">
           <h1 className="header" style={{ fontSize: "75px" }}>
             Restaurant Roulette
@@ -79,7 +80,45 @@ export default class Login extends Component {
           <div className="row">
             <div className="col-4"></div>
             <div className="col-4">
-              <form onSubmit={event => this.handleLogin(event)}>
+              <Form onSubmit={event => this.handleLogin(event)}>
+                <Form.Field>
+                  <label>email:</label>
+                  <input placeholder="email" onChange={this.handleChange} />
+                </Form.Field>
+                <Form.Field>
+                  <label>password:</label>
+                  <input placeholder="password" onChange={this.handleChange} />
+                </Form.Field>
+                <Form.Field>
+                  <Checkbox label="I agree to the Terms and Conditions" />
+                </Form.Field>
+                <Button type="submit" color="green">
+                  Login
+                </Button>
+                <small style={{ color: "#5C5932" }}>
+                  Not a member?{" "}
+                  <b onClick={this.handleClick} className="link">
+                    Sign up.
+                  </b>
+                </small>
+              </Form>
+              <div className="col-4">
+                <div className="img-div">
+                  <img
+                    src="./roulette-svgrepo-com.svg"
+                    className="rotate"
+                    style={{
+                      maxWidth: "250px",
+                      margin: "0 auto 0 auto",
+                      position: "fixed",
+                      bottom: "5%",
+                      right: "5%"
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* <form onSubmit={event => this.handleLogin(event)}>
                 <div className="form-group">
                   <label>
                     <b>email:</b>
@@ -114,24 +153,11 @@ export default class Login extends Component {
                 </small>
               </form>
             </div>
-          </div>
-          <div className="col-4">
-            <div className="img-div">
-              <img
-                src="./roulette-svgrepo-com.svg"
-                className="rotate"
-                style={{
-                  maxWidth: "250px",
-                  margin: "0 auto 0 auto",
-                  position: "fixed",
-                  bottom: "5%",
-                  right: "5%"
-                }}
-              />
+          </div> */}
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

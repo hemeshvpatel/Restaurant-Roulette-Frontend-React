@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
+import { Form, Checkbox, Button } from "semantic-ui-react";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -15,8 +16,8 @@ export default class Signup extends Component {
       email: "",
       password: "",
       password_confirmation: "",
-      zipcode: '',
-      radius: '',
+      zipcode: "",
+      radius: "",
       preferences: [],
       user: "",
       isSignedUp: false
@@ -51,36 +52,39 @@ export default class Signup extends Component {
       })
         .then(resp => resp.json())
         .then(response => {
-          console.log(response)
+          console.log(response);
           localStorage.setItem("jwt", response.jwt);
           this.setState({ user: response.user });
-          this.createCuisinePreferences(this.state.user)
-          this.getRecentUserInfo() 
-        })
+          this.createCuisinePreferences(this.state.user);
+          this.getRecentUserInfo();
+        });
     } else alert("Passwords don't match - try again!");
   };
 
   redirect = () => {
     if (this.state.user.cuisine_preferences === 0) {
-      alert("Whoops! You didn't select any preferences!")
+      alert("Whoops! You didn't select any preferences!");
     } else {
-        this.props.history.push("/home");
+      this.props.history.push("/home");
     }
-  }
+  };
 
-  createCuisinePreferences = (user) => {
+  createCuisinePreferences = user => {
     this.state.preferences.map((cuisine_id, index) => {
-      fetch("https://restaurant-roulette-backend.herokuapp.com/api/cuisine_preferences", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({
-          user_id: user.id,
-          cuisine_id: parseInt(cuisine_id, 10)
-        })
-      })
+      fetch(
+        "https://restaurant-roulette-backend.herokuapp.com/api/cuisine_preferences",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify({
+            user_id: user.id,
+            cuisine_id: parseInt(cuisine_id, 10)
+          })
+        }
+      )
         .then(resp => resp.json())
         .then(response => {
           this.props.signedIn(true);
@@ -89,16 +93,18 @@ export default class Signup extends Component {
   };
 
   getRecentUserInfo = () => {
-    console.log('3) get most recent user info')
-    fetch(`https://restaurant-roulette-backend.herokuapp.com/api/users/${this.state.user.id}`)
+    console.log("3) get most recent user info");
+    fetch(
+      `https://restaurant-roulette-backend.herokuapp.com/api/users/${this.state.user.id}`
+    )
       .then(resp => resp.json())
       .then(resp => {
         this.setState({ user: resp });
         this.props.userSignUp(resp);
         this.redirect();
       });
-    console.log(`success!`, this.state.user)
-  }
+    console.log(`success!`, this.state.user);
+  };
 
   handleCheckBoxChange = event => {
     if (this.state.preferences.includes(event.target.id)) {
@@ -175,48 +181,46 @@ export default class Signup extends Component {
   }
 
   render() {
-    console.log("CURRENT STATE = ", this.state.user)
+    console.log("CURRENT STATE = ", this.state.user);
     return (
-      <div>
-        <React.Fragment>
-          <div className="pb-2 mt-4 mb-2" align="center">
-            <h1 className="header" style={{ fontSize: "75px" }}>
-              Restaurant Roulette
-            </h1>
+      <React.Fragment>
+        <div className="pb-2 mt-4 mb-2" align="center">
+          <h1 className="header" style={{ fontSize: "75px" }}>
+            Restaurant Roulette
+          </h1>
+        </div>
+        <form onSubmit={this.handleSubmit}>
+          <Step1
+            currentStep={this.state.currentStep}
+            handleChange={this.handleChange}
+            name={this.state.name}
+            email={this.state.email}
+            password={this.state.password}
+            password_confirmation={this.state.password_confirmation}
+          />
+          <Step2
+            handleCheckBoxChange={this.handleCheckBoxChange}
+            cuisines={this.props.cuisines}
+            preferences={this.state.preferences}
+            currentStep={this.state.currentStep}
+            handleChange={this.handleChange}
+            zipcode={this.state.zipcode}
+            radius={this.state.radius}
+          />
+          <div
+            style={{
+              marginLeft: "30%",
+              marginRight: "auto",
+              padding: "15px"
+            }}
+          >
+            {this.nextButton}
+            {this.submitButton}
+            <br />
+            {this.previousButton}
           </div>
-          <form onSubmit={this.handleSubmit}>
-            <Step1
-              currentStep={this.state.currentStep}
-              handleChange={this.handleChange}
-              name={this.state.name}
-              email={this.state.email}
-              password={this.state.password}
-              password_confirmation={this.state.password_confirmation}
-            />
-            <Step2
-              handleCheckBoxChange={this.handleCheckBoxChange}
-              cuisines={this.props.cuisines}
-              preferences={this.state.preferences}
-              currentStep={this.state.currentStep}
-              handleChange={this.handleChange}
-              zipcode={this.state.zipcode}
-              radius={this.state.radius}
-            />
-            <div
-              style={{
-                marginLeft: "30%",
-                marginRight: "auto",
-                padding: "15px"
-              }}
-            >
-              {this.nextButton}
-              {this.submitButton}
-              <br />
-              {this.previousButton}
-            </div>
-          </form>
-        </React.Fragment>
-      </div>
+        </form>
+      </React.Fragment>
     );
   }
 }
