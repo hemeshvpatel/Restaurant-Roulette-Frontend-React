@@ -10,6 +10,7 @@ export default class NavBar extends Component {
   handleLogout = event => {
     event.preventDefault();
     localStorage.removeItem("jwt");
+    localStorage.removeItem("user_id");
     this.props.history.push("/");
   };
 
