@@ -37,12 +37,26 @@ export default class Step2 extends Component {
                 value={this.props.isChecked}
               />
             </Form.Field>
-            <label>First Name</label>
-            <input placeholder="First Name" />
+            <label>Zipcode</label>
+            <input
+              placeholder="zipcode"
+              id="zipcode"
+              name="zipcode"
+              type="text"
+              value={this.props.zipcode}
+              onChange={this.props.handleChange}
+            />
           </Form.Field>
           <Form.Field>
-            <label>Last Name</label>
-            <input placeholder="Last Name" />
+            <label>Radius</label>
+            <input
+              placeholder="radius"
+              id="radius"
+              name="radius"
+              type="text"
+              value={this.props.radius}
+              onChange={this.props.handleChange}
+            />
           </Form.Field>
           <Form.Field>
             <Checkbox label="I agree to the Terms and Conditions" />

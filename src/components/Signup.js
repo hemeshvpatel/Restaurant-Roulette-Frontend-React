@@ -107,9 +107,8 @@ export default class Signup extends Component {
   };
 
   handleCheckBoxChange = (event, data) => {
-    console.log("data id =>", data.key);
-    console.log("data value =>", data.value);
-    console.log("event target=>", event.target.text);
+    this.setState({ preferences: data.value });
+
     // if (this.state.preferences.includes(event.target.id)) {
     //   let newPreferences = this.state.preferences.filter(id => {
     //     return id !== event.target.id;
@@ -176,6 +175,7 @@ export default class Signup extends Component {
   }
 
   render() {
+    console.log(this.state.preferences);
     return (
       <React.Fragment>
         <div className="pb-2 mt-4 mb-2" align="center">
@@ -183,7 +183,10 @@ export default class Signup extends Component {
             Restaurant Roulette
           </h1>
         </div>
-        <form onSubmit={this.handleSubmit}>
+        <Form
+          onSubmit={this.handleSubmit}
+          style={{ width: "fit-content", margin: "0 auto" }}
+        >
           <Step1
             currentStep={this.state.currentStep}
             handleChange={this.handleChange}
@@ -213,7 +216,7 @@ export default class Signup extends Component {
             <br />
             {this.previousButton}
           </div>
-        </form>
+        </Form>
       </React.Fragment>
     );
   }
