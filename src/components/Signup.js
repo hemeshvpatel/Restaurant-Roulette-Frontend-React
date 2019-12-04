@@ -106,15 +106,17 @@ export default class Signup extends Component {
     console.log(`success!`, this.state.user);
   };
 
-  handleCheckBoxChange = event => {
-    if (this.state.preferences.includes(event.target.id)) {
-      let newPreferences = this.state.preferences.filter(id => {
-        return id !== event.target.id;
-      });
-      this.setState({ preferences: newPreferences });
-    } else {
-      this.state.preferences.push(event.target.id);
-    }
+  handleCheckBoxChange = (event, data) => {
+    this.setState({ preferences: data.value });
+
+    // if (this.state.preferences.includes(event.target.id)) {
+    //   let newPreferences = this.state.preferences.filter(id => {
+    //     return id !== event.target.id;
+    //   });
+    //   this.setState({ preferences: newPreferences });
+    // } else {
+    //   this.state.preferences.push(event.target.id);
+    // }
   };
 
   _next() {
@@ -152,16 +154,7 @@ export default class Signup extends Component {
   get nextButton() {
     let currentStep = this.state.currentStep;
     if (currentStep === 1) {
-      return (
-        <button
-          className="button"
-          style={{ width: "56%", marginLeft: "auto", marginRight: "auto" }}
-          type="button"
-          onClick={this._next}
-        >
-          Next
-        </button>
-      );
+      return <Button onClick={this._next}>Next</Button>;
     }
     return null;
   }
@@ -169,19 +162,20 @@ export default class Signup extends Component {
   get submitButton() {
     if (this.state.currentStep === 2) {
       return (
-        <input
-          type="submit"
-          value="Create Account"
-          className="button"
-          style={{ width: "56%", marginLeft: "auto", marginRight: "auto" }}
-        />
+        <Button type="submit">Create Account</Button>
+        // <input
+        //   type="submit"
+        //   value="Create Account"
+        //   className="button"
+        //   style={{ width: "56%", marginLeft: "auto", marginRight: "auto" }}
+        // />
       );
     }
     return null;
   }
 
   render() {
-    console.log("CURRENT STATE = ", this.state.user);
+    console.log(this.state.preferences);
     return (
       <React.Fragment>
         <div className="pb-2 mt-4 mb-2" align="center">
@@ -189,7 +183,10 @@ export default class Signup extends Component {
             Restaurant Roulette
           </h1>
         </div>
-        <form onSubmit={this.handleSubmit}>
+        <Form
+          onSubmit={this.handleSubmit}
+          style={{ width: "fit-content", margin: "0 auto" }}
+        >
           <Step1
             currentStep={this.state.currentStep}
             handleChange={this.handleChange}
@@ -219,7 +216,7 @@ export default class Signup extends Component {
             <br />
             {this.previousButton}
           </div>
-        </form>
+        </Form>
       </React.Fragment>
     );
   }
