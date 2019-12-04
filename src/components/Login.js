@@ -83,11 +83,22 @@ export default class Login extends Component {
               <Form onSubmit={event => this.handleLogin(event)}>
                 <Form.Field>
                   <label>email:</label>
-                  <input placeholder="email" onChange={this.handleChange} />
+                  <input
+                    id="email"
+                    name="email"
+                    placeholder="email"
+                    onChange={this.handleChange}
+                  />
                 </Form.Field>
                 <Form.Field>
                   <label>password:</label>
-                  <input placeholder="password" onChange={this.handleChange} />
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="password"
+                    onChange={this.handleChange}
+                  />
                 </Form.Field>
                 <Form.Field>
                   <Checkbox label="I agree to the Terms and Conditions" />

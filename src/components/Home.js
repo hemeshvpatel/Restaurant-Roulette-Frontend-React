@@ -17,7 +17,7 @@ export default class Home extends Component {
     placeID: "",
     restaurantName: "",
     randomCuisine: "",
-    user: "",
+    user: localStorage.getItem("user_id"),
     cuisines: this.props.cuisines
     // style: true
   };
