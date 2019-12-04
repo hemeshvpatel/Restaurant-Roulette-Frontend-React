@@ -62,10 +62,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state);
-    // if (this.state.user === true) {
-    //   return <Redirect to="/home" />;
-    // }
     return (
       <Router>
         <Switch>
@@ -87,7 +83,6 @@ class App extends Component {
               <Signup
                 {...props}
                 cuisines={this.state.cuisines}
-                signedIn={this.signedIn}
                 userSignUp={this.userSignUp}
               />
             )}

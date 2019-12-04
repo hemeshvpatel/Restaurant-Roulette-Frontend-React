@@ -11,7 +11,7 @@ export default class Step2 extends Component {
       return {
         key: cuisine.id,
         text: cuisine.kind,
-        value: cuisine.kind
+        value: cuisine.id
       };
     });
     if (this.props.currentStep === 1) {
@@ -25,6 +25,7 @@ export default class Step2 extends Component {
             <small>What kind of food do you like?</small>
             <Form.Field>
               <Dropdown
+                required
                 placeholder="Choose Your Cuisines"
                 fluid
                 multiple
@@ -34,7 +35,6 @@ export default class Step2 extends Component {
                 onChange={(event, data) =>
                   this.props.handleCheckBoxChange(event, data)
                 }
-                value={this.props.isChecked}
               />
             </Form.Field>
             <label>Zipcode</label>
@@ -61,7 +61,6 @@ export default class Step2 extends Component {
           <Form.Field>
             <Checkbox label="I agree to the Terms and Conditions" />
           </Form.Field>
-          <Button type="submit">Submit</Button>
         </Form>
       </>
       // <div className="container">

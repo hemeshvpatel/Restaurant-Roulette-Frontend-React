@@ -53,6 +53,7 @@ export default class Signup extends Component {
         .then(resp => resp.json())
         .then(response => {
           console.log(response);
+          localStorage.setItem("user_id", response.user.id);
           localStorage.setItem("jwt", response.jwt);
           this.setState({ user: response.user });
           this.createCuisinePreferences(this.state.user);
@@ -87,13 +88,12 @@ export default class Signup extends Component {
       )
         .then(resp => resp.json())
         .then(response => {
-          this.props.signedIn(true);
+          this.props.userSignUp(this.state.user);
         });
     });
   };
 
   getRecentUserInfo = () => {
-    console.log("3) get most recent user info");
     fetch(
       `https://restaurant-roulette-backend.herokuapp.com/api/users/${this.state.user.id}`
     )
@@ -108,15 +108,6 @@ export default class Signup extends Component {
 
   handleCheckBoxChange = (event, data) => {
     this.setState({ preferences: data.value });
-
-    // if (this.state.preferences.includes(event.target.id)) {
-    //   let newPreferences = this.state.preferences.filter(id => {
-    //     return id !== event.target.id;
-    //   });
-    //   this.setState({ preferences: newPreferences });
-    // } else {
-    //   this.state.preferences.push(event.target.id);
-    // }
   };
 
   _next() {
@@ -175,7 +166,7 @@ export default class Signup extends Component {
   }
 
   render() {
-    console.log(this.state.preferences);
+    console.log(this.state);
     return (
       <React.Fragment>
         <div className="pb-2 mt-4 mb-2" align="center">
