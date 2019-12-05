@@ -13,6 +13,7 @@ class Roulette extends Component {
         <div className="img-div">
           <Link to="/home/dinner">
             <img
+              alt="roulette"
               src="./roulette-svgrepo-com.svg"
               className="rotate"
               style={{ maxWidth: "650px", margin: "0 auto 0 auto" }}

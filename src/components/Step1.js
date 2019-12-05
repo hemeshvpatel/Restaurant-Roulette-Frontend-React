@@ -1,9 +1,11 @@
-import React, { Component } from "react";
-import { Form, Button } from "semantic-ui-react";
+import React from "react";
+import { Form } from "semantic-ui-react";
 
 export default class Step1 extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {};
   }
   render() {
     if (this.props.currentStep !== 1) {

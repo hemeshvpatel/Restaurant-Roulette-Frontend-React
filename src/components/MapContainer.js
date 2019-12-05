@@ -25,7 +25,7 @@ class MapContainer extends Component {
     return (
       <>
         <div>
-          <Button as="div" labelPosition="right" style={{ width: auto }}>
+          <Button as="div" labelPosition="right" style={{ width: "auto" }}>
             <Button color="pink">
               <Icon name="heart" />
               Like

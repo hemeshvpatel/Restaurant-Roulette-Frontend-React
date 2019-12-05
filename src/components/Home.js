@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import NavBar from "./NavBar";
-import Preferences from "./Preferences";
-import Logout from "./Weather";
-import { tsImportEqualsDeclaration } from "@babel/types";
 import Waiting from "./Waiting";
-import RestaurantInfo from "./RestaurantInfo";
 import Roulette from "./Roulette";
 
 export default class Home extends Component {
@@ -133,15 +127,14 @@ export default class Home extends Component {
 
   render() {
     let today = new Date();
-    let date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
+    // let date =
+    //   today.getFullYear() +
+    //   "-" +
+    //   (today.getMonth() + 1) +
+    //   "-" +
+    //   today.getDate();
     let currentTime =
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    console.log(this.state);
     return (
       <>
         {currentTime < "17:59:59" ? (
