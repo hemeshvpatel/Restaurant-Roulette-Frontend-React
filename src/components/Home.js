@@ -108,11 +108,33 @@ export default class Home extends Component {
           },
           () => {
             this.props.handleRestaurant(randomResult);
+            this.createMatch();
           }
         );
       })
       .catch(function(err) {
         console.log("Fetch Error :-S", err);
+      });
+  };
+
+  createMatch = () => {
+    fetch("https://restaurant-roulette-backend.herokuapp.com/matches", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        user_id: this.state.user.id,
+        place_id: this.state.placeID,
+        place_lat: this.state.latData,
+        place_lng: this.state.longData,
+        place_name: this.state.restaurantName
+      })
+    })
+      .then(resp => resp.json())
+      .then(resp => {
+        console.log(resp);
       });
   };
 
@@ -126,6 +148,7 @@ export default class Home extends Component {
       today.getDate();
     let currentTime =
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    console.log(this.state);
     return (
       <>
         {currentTime < "17:59:59" ? (
