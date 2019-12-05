@@ -31,20 +31,6 @@ class App extends Component {
       .then(cuisines => {
         this.setState({ cuisines: cuisines });
       });
-    // .then(
-    //   fetch(
-    //     `https://restaurant-roulette-backend.herokuapp.com/api/users/${this.state.user.id}`
-    //   )
-    //     .then(resp => resp.json())
-    //     .then(resp => {
-    //       if (resp === null) {
-    //         alert("Invalid username or password - please try again!");
-    //       } else {
-    //         console.log(resp);
-    //         this.setState({ user: resp });
-    //       }
-    //     })
-    // );
   }
 
   handleRestaurant = res => {
