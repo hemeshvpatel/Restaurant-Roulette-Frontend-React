@@ -38,10 +38,6 @@ export default class Home extends Component {
     this.randomizeUserCuisine();
   }
 
-  // getUser = () => {
-
-  // };
-
   fetchCoordinates = () => {
     const zipcode = this.state.user.zipcode;
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -67,9 +63,6 @@ export default class Home extends Component {
       .then(resp => resp.json())
       .then(data => {
         this.setState({ user: data });
-        // const cuisinePreferences = data.cuisine_preferences
-        // let randomCuisine = cuisinePreferences[Math.floor(Math.random() * cuisinePreferences.length)]
-        // this.setState({ randomCuisine: randomCuisine.cuisine.kind })
       });
   };
 
